@@ -8,6 +8,9 @@ module Groove
     desc "auth SUBCOMMAND", "Authentication commands"
     subcommand "auth", Auth
 
+    desc "parse SUBCOMMAND", "File parsing commands"
+    subcommand "parse", Parse
+
     desc "version", "Show version information"
     def version
       say "Groove v#{Groove::VERSION}"
@@ -22,6 +25,9 @@ module Groove
           groove auth login     - Authenticate with Spotify
           groove auth logout    - Clear authentication
           groove auth status    - Check authentication status
+          groove parse file     - Parse a single file containing songs
+          groove parse files    - Parse multiple files containing songs
+          groove parse validate - Validate file format
           groove version        - Show version
           groove help          - Show this help
 

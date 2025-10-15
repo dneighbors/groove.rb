@@ -1,0 +1,30 @@
+{
+  "playlist": "Classic Rock Favorites",
+  "songs": [
+    {
+      "artist": "The Beatles",
+      "title": "Hey Jude",
+      "spotify_id": "0mJiKSvD8P4WwYyieWXoGu"
+    },
+    {
+      "artist": "Queen",
+      "title": "Bohemian Rhapsody",
+      "spotify_id": "4u7EnebtmKWzUH433cf5Qv"
+    },
+    {
+      "artist": "Led Zeppelin",
+      "title": "Stairway to Heaven",
+      "spotify_id": "5CQ30WqJwcep0pYcV4AMNc"
+    },
+    {
+      "artist": "Pink Floyd",
+      "title": "Comfortably Numb",
+      "spotify_id": "5HNCy40Ni5BZJFw1TKzRsC"
+    },
+    {
+      "artist": "The Rolling Stones",
+      "title": "Satisfaction",
+      "spotify_id": "2EqlS6tkEnglzr7tkKAAYD"
+    }
+  ]
+}

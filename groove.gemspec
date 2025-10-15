@@ -35,6 +35,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "oauth2", "~> 2.0"
   spec.add_dependency "faraday", "~> 2.9"
   spec.add_dependency "dry-configurable", "~> 1.0"
+  spec.add_dependency "csv", "~> 3.2"
   # spec.add_dependency "ruby_llm", "~> 0.1" # TODO: Add when available
 
   # Development dependencies

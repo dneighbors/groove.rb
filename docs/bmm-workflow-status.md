@@ -63,9 +63,9 @@ A Ruby gem/script that syncs a text list of songs/artists to a Spotify playlist.
 
 ## What to do next
 
-**Next Action:** Review completed story 1.1 and run 'story-approved' workflow  
-**Command to run:** Load SM agent and run 'story-approved' workflow  
-**Agent to load:** SM 
+**Next Action:** Implement Story 1.2 (Text File Parsing)  
+**Command to run:** Load DEV agent and run 'dev-story' workflow  
+**Agent to load:** DEV 
 
 ## Implementation Progress (Phase 4 Only)
 
@@ -97,15 +97,15 @@ A Ruby gem/script that syncs a text list of songs/artists to a Spotify playlist.
 
 ### TODO (Needs Drafting)
 
-- **Story ID:** 1.1
-- **Story Title:** Spotify API Authentication
-- **Story File:** `story-1.1.md`
-- **Status:** Draft (needs review)
-- **Action:** Review story and run `story-ready` workflow to approve for development
+- **Story ID:** 1.3
+- **Story Title:** Spotify Song Search and Matching
+- **Story File:** `story-1.3.md`
+- **Status:** Needs drafting
+- **Action:** Run `create-story` workflow to draft story
 
 ### IN PROGRESS (Approved for Development)
 
-(Story will be moved here by SM agent `story-ready` workflow)
+(No stories currently in progress)
 
 ### DONE (Completed Stories)
 
@@ -121,6 +121,10 @@ A Ruby gem/script that syncs a text list of songs/artists to a Spotify playlist.
 - **2025-10-15**: Completed solution-architecture workflow. Generated solution-architecture.md, cohesion-check-report.md, and 2 tech-spec files. Populated story backlog with 10 stories. Phase 3 complete. Next: SM agent should run create-story to draft first story (1.1).
 - **2025-10-15**: Completed create-story for Story 1.1 (Spotify API Authentication). Story file: story-1.1.md. Status: Draft (needs review via story-ready). Next: Review and approve story.
 - **2025-01-14**: Completed dev-story for Story 1.1 (Spotify API Authentication). All tasks complete, tests passing. Story status: Ready for Review. Next: User reviews and runs story-approved when satisfied with implementation.
+- **2025-01-14**: Story 1.1 APPROVED and COMPLETE. Authentication system fully working with Spotify OAuth2. All acceptance criteria met. Moving to Story 1.2 (Text File Parsing).
+- **2025-01-14**: Completed create-story for Story 1.2 (Text File Parsing). Story file: story-1.2.md. Status: Draft (needs review via story-ready). Next: Review and approve story.
+- **2025-01-14**: Story 1.2 APPROVED and moved to IN PROGRESS. Starting implementation of file parsing functionality. Next: Run dev-story workflow.
+- **2025-01-14**: Story 1.2 COMPLETE. File parsing functionality fully implemented with CSV, TXT, and JSON support. All acceptance criteria met. Moving to Story 1.3 (Spotify Song Search and Matching).
 
 ---
 
