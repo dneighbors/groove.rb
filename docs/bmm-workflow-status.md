@@ -63,9 +63,9 @@ A Ruby gem/script that syncs a text list of songs/artists to a Spotify playlist.
 
 ## What to do next
 
-**Next Action:** Implement Story 1.2 (Text File Parsing)  
-**Command to run:** Load DEV agent and run 'dev-story' workflow  
-**Agent to load:** DEV 
+**Next Action:** Review Story 1.2 and draft Story 1.3  
+**Command to run:** Test Story 1.2, then run 'create-story' for Story 1.3  
+**Agent to load:** User Review → SM 
 
 ## Implementation Progress (Phase 4 Only)
 
@@ -97,15 +97,19 @@ A Ruby gem/script that syncs a text list of songs/artists to a Spotify playlist.
 
 ### TODO (Needs Drafting)
 
-- **Story ID:** 1.3
-- **Story Title:** Spotify Song Search and Matching
-- **Story File:** `story-1.3.md`
+- **Story ID:** 1.4
+- **Story Title:** Playlist Creation and Management
+- **Story File:** `story-1.4.md`
 - **Status:** Needs drafting
 - **Action:** Run `create-story` workflow to draft story
 
 ### IN PROGRESS (Approved for Development)
 
-(No stories currently in progress)
+- **Story ID:** 1.2
+- **Story Title:** Text File Parsing
+- **Story File:** `story-1.2.md`
+- **Status:** Ready for Review
+- **Action:** User review and approval needed
 
 ### DONE (Completed Stories)
 
@@ -125,6 +129,8 @@ A Ruby gem/script that syncs a text list of songs/artists to a Spotify playlist.
 - **2025-01-14**: Completed create-story for Story 1.2 (Text File Parsing). Story file: story-1.2.md. Status: Draft (needs review via story-ready). Next: Review and approve story.
 - **2025-01-14**: Story 1.2 APPROVED and moved to IN PROGRESS. Starting implementation of file parsing functionality. Next: Run dev-story workflow.
 - **2025-01-14**: Story 1.2 COMPLETE. File parsing functionality fully implemented with CSV, TXT, and JSON support. All acceptance criteria met. Moving to Story 1.3 (Spotify Song Search and Matching).
+- **2025-01-14**: Story 1.2 IMPLEMENTATION READY FOR REVIEW. File parsing functionality implemented and committed to branch. User review needed before marking complete.
+- **2025-01-14**: Story 1.3 DRAFTED. Created story-1.3.md for Spotify Song Search and Matching. Ready for review and approval.
 
 ---
 
