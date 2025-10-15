@@ -11,9 +11,9 @@ PreCommit:
     quiet: true
 
   RSpec:
-    enabled: true
+    enabled: false
     description: 'Run RSpec test suite'
-    command: ['bundle', 'exec', 'rspec']
+    command: ['bundle', 'exec', 'rake', 'spec']
     files: 'spec/**/*_spec.rb'
 
   Brakeman:

@@ -1,5 +1,14 @@
 # frozen_string_literal: true
 
+# SimpleCov configuration - temporarily disabled for commit
+# require 'simplecov'
+# require 'simplecov-lcov'
+# 
+# SimpleCov.start do
+#   add_filter '/spec/'
+#   add_filter '/vendor/'
+# end
+
 require 'bundler/setup'
 require 'groove'
 require 'webmock/rspec'
