@@ -3,7 +3,7 @@
 # SimpleCov configuration - temporarily disabled for commit
 # require 'simplecov'
 # require 'simplecov-lcov'
-# 
+#
 # SimpleCov.start do
 #   add_filter '/spec/'
 #   add_filter '/vendor/'
@@ -30,8 +30,8 @@ RSpec.configure do |config|
     temp_config = File.expand_path('~/.config/groove/config.yaml')
     temp_tokens = File.expand_path('~/.config/groove/tokens.json')
 
-    File.delete(temp_config) if File.exist?(temp_config)
-    File.delete(temp_tokens) if File.exist?(temp_tokens)
+    FileUtils.rm_f(temp_config)
+    FileUtils.rm_f(temp_tokens)
   end
 end
 

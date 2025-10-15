@@ -45,7 +45,7 @@ module Groove
       puts "Copy the 'code' parameter from the URL and paste it here:"
 
       print 'Authorization code: '
-      code = STDIN.gets.chomp
+      code = $stdin.gets.chomp
 
       begin
         token = client.auth_code.get_token(code, redirect_uri: REDIRECT_URI)
@@ -182,7 +182,7 @@ module Groove
       cipher.key = @encryption_key
       cipher.iv = data[0, 16] # First 16 bytes are IV
 
-      encrypted = data[16..-1]
+      encrypted = data[16..]
       cipher.update(encrypted) + cipher.final
     end
   end
