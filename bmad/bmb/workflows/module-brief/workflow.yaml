@@ -24,12 +24,3 @@ validation: "{installed_path}/checklist.md"
 
 # Output configuration
 default_output_file: "{output_folder}/module-brief-{{module_code}}-{{date}}.md"
-
-web_bundle:
-  name: "module-brief"
-  description: "Create a comprehensive Module Brief that serves as the blueprint for building new BMAD modules using strategic analysis and creative vision"
-  author: "BMad Builder"
-  web_bundle_files:
-    - "bmad/bmb/workflows/module-brief/instructions.md"
-    - "bmad/bmb/workflows/module-brief/template.md"
-    - "bmad/bmb/workflows/module-brief/checklist.md"

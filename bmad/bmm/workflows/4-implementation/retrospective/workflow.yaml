@@ -39,5 +39,3 @@ validation_required:
   - business_validation: "Have stakeholders reviewed and accepted deliverables?"
   - technical_health: "Is codebase in stable, maintainable state?"
   - blocker_resolution: "Any unresolved blockers that will impact next epic?"
-
-web_bundle: false
