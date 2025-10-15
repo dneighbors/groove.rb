@@ -1,6 +1,6 @@
 # Story 1.3: Spotify Song Search and Matching
 
-Status: In Progress
+Status: Complete
 
 ## Story
 

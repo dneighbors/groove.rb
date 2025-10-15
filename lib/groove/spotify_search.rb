@@ -110,7 +110,7 @@ module Groove
       clean_artist = clean_search_term(artist)
       clean_title = clean_search_term(title)
       
-      # Build query with artist and track
+      # Build query with artist and track - don't encode the field names
       "artist:#{clean_artist} track:#{clean_title}"
     end
 
@@ -122,8 +122,8 @@ module Groove
         .gsub(/\s+/, ' ')
         .strip
       
-      # Escape special characters for URL
-      CGI.escape(cleaned).gsub('+', '%20')
+      # Return cleaned term without URL encoding - let Faraday handle that
+      cleaned
     end
 
     def make_search_request(query)
