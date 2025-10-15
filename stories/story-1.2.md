@@ -1,6 +1,6 @@
 # Story 1.2: Text File Parsing
 
-Status: Ready for Review
+Status: Complete
 
 ## Story
 
