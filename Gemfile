@@ -11,4 +11,5 @@ group :development, :test do
   gem 'rubocop', '~> 1.57'
   gem 'rubocop-rspec', '~> 2.25'
   gem 'webmock', '~> 3.19'
+  gem 'overcommit', '~> 0.60'
 end

@@ -1,0 +1,22 @@
+# Overcommit configuration for groove.rb
+# Pre-commit hooks for code quality and testing
+
+PreCommit:
+  RuboCop:
+    enabled: true
+    description: 'Run RuboCop on staged files'
+    command: ['bundle', 'exec', 'rubocop']
+    include: '**/*.rb'
+    exclude: 'vendor/**/*'
+
+  RSpec:
+    enabled: true
+    description: 'Run RSpec test suite'
+    command: ['bundle', 'exec', 'rspec']
+    files: 'spec/**/*_spec.rb'
+
+  # Note: Brakeman hook will be added when Story 3.4 is complete
+  # Brakeman:
+  #   enabled: true
+  #   description: 'Run Brakeman security scan'
+  #   command: ['bundle', 'exec', 'brakeman', '--quiet']
