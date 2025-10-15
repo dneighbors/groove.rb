@@ -16,8 +16,7 @@ PreCommit:
     command: ['bundle', 'exec', 'rspec']
     files: 'spec/**/*_spec.rb'
 
-  # Note: Brakeman hook will be added when Story 3.4 is complete
-  # Brakeman:
-  #   enabled: true
-  #   description: 'Run Brakeman security scan'
-  #   command: ['bundle', 'exec', 'brakeman', '--quiet']
+  Brakeman:
+    enabled: true
+    description: 'Run Brakeman security scan'
+    command: ['bundle', 'exec', 'brakeman', '--force', '--quiet']

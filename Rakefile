@@ -10,4 +10,10 @@ RuboCop::RakeTask.new do |task|
   task.options = ['--parallel']
 end
 
+desc "Run Brakeman security scan"
+task :brakeman do
+  sh "bundle exec brakeman --force --quiet --format json --output brakeman-report.json"
+  sh "bundle exec brakeman --force --quiet --format html --output brakeman-report.html"
+end
+
 task default: %i[rubocop spec]
