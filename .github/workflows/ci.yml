@@ -26,7 +26,7 @@ jobs:
       run: bundle install
 
     - name: Run RuboCop
-      run: bundle exec rubocop --fail-level error
+      run: bundle exec rubocop
 
     - name: Run RSpec
       run: bundle exec rspec
