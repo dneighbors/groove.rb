@@ -1,6 +1,6 @@
 # Story 1.3: Spotify Song Search and Matching
 
-Status: Draft
+Status: In Progress
 
 ## Story
 
@@ -21,42 +21,42 @@ so that I don't have to manually search for each song.
 
 ## Tasks / Subtasks
 
-- [ ] **Task 1: Spotify Search API Integration** (AC: 1, 7, 8)
-  - [ ] Implement Spotify Web API search endpoint integration
-  - [ ] Add authentication token handling for API calls
-  - [ ] Implement rate limiting and retry logic
-  - [ ] Add comprehensive error handling for API failures
+- [x] **Task 1: Spotify Search API Integration** (AC: 1, 7, 8)
+  - [x] Implement Spotify Web API search endpoint integration
+  - [x] Add authentication token handling for API calls
+  - [x] Implement rate limiting and retry logic
+  - [x] Add comprehensive error handling for API failures
 
-- [ ] **Task 2: Search Strategy Implementation** (AC: 2, 3, 6)
-  - [ ] Implement multiple search strategies (exact, fuzzy, partial)
-  - [ ] Add artist name normalization and cleaning
-  - [ ] Handle multiple artist formats (feat., featuring, &, vs)
-  - [ ] Implement search result ranking and scoring
+- [x] **Task 2: Search Strategy Implementation** (AC: 2, 3, 6)
+  - [x] Implement multiple search strategies (exact, fuzzy, partial)
+  - [x] Add artist name normalization and cleaning
+  - [x] Handle multiple artist formats (feat., featuring, &, vs)
+  - [x] Implement search result ranking and scoring
 
-- [ ] **Task 3: Confidence Scoring System** (AC: 4)
-  - [ ] Implement confidence scoring algorithm
-  - [ ] Score based on artist name match accuracy
-  - [ ] Score based on song title match accuracy
-  - [ ] Score based on popularity and metadata
+- [x] **Task 3: Confidence Scoring System** (AC: 4)
+  - [x] Implement confidence scoring algorithm
+  - [x] Score based on artist name match accuracy
+  - [x] Score based on song title match accuracy
+  - [x] Score based on popularity and metadata
 
-- [ ] **Task 4: Integration with File Parser** (AC: 1-8)
-  - [ ] Connect search functionality with parsed song data
-  - [ ] Implement batch search for multiple songs
-  - [ ] Add search result caching for performance
-  - [ ] Handle mixed results (found/not found songs)
+- [x] **Task 4: Integration with File Parser** (AC: 1-8)
+  - [x] Connect search functionality with parsed song data
+  - [x] Implement batch search for multiple songs
+  - [x] Add search result caching for performance
+  - [x] Handle mixed results (found/not found songs)
 
-- [ ] **Task 5: CLI Integration** (AC: 1-8)
-  - [ ] Add search commands to CLI
-  - [ ] Display search results with confidence scores
-  - [ ] Show not found songs clearly
-  - [ ] Add search statistics and reporting
+- [x] **Task 5: CLI Integration** (AC: 1-8)
+  - [x] Add search commands to CLI
+  - [x] Display search results with confidence scores
+  - [x] Show not found songs clearly
+  - [x] Add search statistics and reporting
 
-- [ ] **Task 6: Testing** (AC: 1-8)
-  - [ ] Unit tests for search strategies
-  - [ ] Integration tests with Spotify API (mocked)
-  - [ ] Test fuzzy matching algorithms
-  - [ ] Test error handling scenarios
-  - [ ] Test confidence scoring accuracy
+- [x] **Task 6: Testing** (AC: 1-8)
+  - [x] Unit tests for search strategies
+  - [x] Integration tests with Spotify API (mocked)
+  - [x] Test fuzzy matching algorithms
+  - [x] Test error handling scenarios
+  - [x] Test confidence scoring accuracy
 
 ## Dev Notes
 

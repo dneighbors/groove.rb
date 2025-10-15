@@ -11,6 +11,9 @@ module Groove
     desc "parse SUBCOMMAND", "File parsing commands"
     subcommand "parse", Parse
 
+    desc "search SUBCOMMAND", "Spotify search commands"
+    subcommand "search", Search
+
     desc "version", "Show version information"
     def version
       say "Groove v#{Groove::VERSION}"
@@ -28,6 +31,9 @@ module Groove
           groove parse file     - Parse a single file containing songs
           groove parse files    - Parse multiple files containing songs
           groove parse validate - Validate file format
+          groove search song    - Search for a single song on Spotify
+          groove search file    - Search for all songs in a file on Spotify
+          groove search stats   - Show search statistics
           groove version        - Show version
           groove help          - Show this help
 
