@@ -1,0 +1,29 @@
+example_id                                  | status | run_time        |
+------------------------------------------- | ------ | --------------- |
+./spec/groove/authentication_spec.rb[1:1:1] | passed | 0.00443 seconds |
+./spec/groove/authentication_spec.rb[1:1:2] | passed | 0.001 seconds   |
+./spec/groove/authentication_spec.rb[1:2:1] | passed | 0.00035 seconds |
+./spec/groove/authentication_spec.rb[1:2:2] | passed | 0.00006 seconds |
+./spec/groove/authentication_spec.rb[1:3:1] | passed | 0.00005 seconds |
+./spec/groove/authentication_spec.rb[1:3:2] | passed | 0.00018 seconds |
+./spec/groove/authentication_spec.rb[1:3:3] | passed | 0.00014 seconds |
+./spec/groove/authentication_spec.rb[1:4:1] | passed | 0.00006 seconds |
+./spec/groove/authentication_spec.rb[1:4:2] | passed | 0.00012 seconds |
+./spec/groove/authentication_spec.rb[1:4:3] | passed | 0.00012 seconds |
+./spec/groove/authentication_spec.rb[1:5:1] | passed | 0.00041 seconds |
+./spec/groove/authentication_spec.rb[1:5:2] | passed | 0.00036 seconds |
+./spec/groove/authentication_spec.rb[1:6:1] | passed | 0.00146 seconds |
+./spec/groove/cli_spec.rb[1:1:1]            | passed | 0.00234 seconds |
+./spec/groove/cli_spec.rb[1:2:1]            | passed | 0.00011 seconds |
+./spec/groove/cli_spec.rb[2:1:1]            | passed | 0.00037 seconds |
+./spec/groove/cli_spec.rb[2:1:2]            | passed | 0.0003 seconds  |
+./spec/groove/cli_spec.rb[2:2:1]            | passed | 0.00029 seconds |
+./spec/groove/cli_spec.rb[2:3:1]            | passed | 0.0002 seconds  |
+./spec/groove/configuration_spec.rb[1:1:1]  | passed | 0.00081 seconds |
+./spec/groove/configuration_spec.rb[1:1:2]  | passed | 0.00008 seconds |
+./spec/groove/configuration_spec.rb[1:1:3]  | passed | 0.00011 seconds |
+./spec/groove/configuration_spec.rb[1:2:1]  | passed | 0.00024 seconds |
+./spec/groove/configuration_spec.rb[1:2:2]  | passed | 0.00007 seconds |
+./spec/groove/configuration_spec.rb[1:2:3]  | passed | 0.00005 seconds |
+./spec/groove/configuration_spec.rb[1:2:4]  | passed | 0.0005 seconds  |
+./spec/groove/configuration_spec.rb[1:2:5]  | passed | 0.00007 seconds |

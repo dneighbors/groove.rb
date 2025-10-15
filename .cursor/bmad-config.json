@@ -1,0 +1,34 @@
+{
+  "name": "BMad v6-alpha Integration",
+  "version": "1.0.0",
+  "description": "Configuration for BMad v6-alpha with Cursor IDE",
+  "cursor": {
+    "ai": {
+      "systemPrompt": "You are working with BMad v6-alpha, an AI-driven development framework. The project uses the BMad Method Module (BMM) for agile software development. Available agents: analyst, pm, architect, sm, dev. Available workflows include workflow-status, brainstorm-project, plan-project, solution-architecture, create-story, dev-story. Always check workflow-status first to understand the current state.",
+      "contextFiles": [
+        "bmad/README.md",
+        "bmad/config.json",
+        "bmad/bmm/README.md",
+        "bmad/bmm/workflows/README.md"
+      ]
+    },
+    "workspace": {
+      "recommendedExtensions": [
+        "yaml",
+        "markdown"
+      ],
+      "settings": {
+        "files.associations": {
+          "*.agent.yaml": "yaml",
+          "*.workflow.yaml": "yaml"
+        }
+      }
+    }
+  },
+  "bmad": {
+    "version": "6.0.0-alpha.0",
+    "modules": ["bmm", "bmb", "cis"],
+    "workflowStatus": "not-started",
+    "nextAction": "Run 'node bmad-cli.js analyst workflow-status' to begin"
+  }
+}

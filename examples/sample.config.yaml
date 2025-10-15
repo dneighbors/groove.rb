@@ -1,0 +1,25 @@
+# Groove Configuration Sample
+# Copy this file to ~/.config/groove/config.yaml and fill in your actual values
+
+# Spotify API Configuration
+spotify:
+  client_id: "your_spotify_client_id_here"
+  client_secret: "your_spotify_client_secret_here"
+  redirect_uri: "http://127.0.0.1:8080/callback"
+  
+# Application Settings
+app:
+  name: "groove"
+  version: "0.1.0"
+  debug: false
+  
+# Logging Configuration
+logging:
+  level: "info"
+  file: "~/.config/groove/groove.log"
+  
+# AI Configuration (for future use)
+ai:
+  provider: "openrouter"
+  model: "anthropic/claude-3.5-sonnet"
+  api_key: "your_openrouter_api_key_here"
