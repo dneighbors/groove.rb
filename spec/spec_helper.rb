@@ -37,6 +37,10 @@ class TestConfiguration
     @debug = false
     @log_level = 'info'
   end
+
+  def self.config
+    @config ||= new
+  end
 end
 
 # Test version of Authentication that uses plain JSON for testing

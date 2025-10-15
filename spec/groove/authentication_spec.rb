@@ -18,7 +18,7 @@ RSpec.describe Groove::Authentication do
       config.spotify_client_secret = ''
 
       # Mock gets to avoid hanging on input
-      allow(auth).to receive(:gets).and_return('test_code')
+      allow(STDIN).to receive(:gets).and_return('test_code')
 
       # Mock the OAuth2 client to raise an error
       allow(OAuth2::Client).to receive(:new).and_raise(OAuth2::Error.new('Invalid client'))
@@ -35,7 +35,7 @@ RSpec.describe Groove::Authentication do
       allow(auth_code).to receive(:authorize_url).and_return('https://accounts.spotify.com/authorize?client_id=test&redirect_uri=http://localhost:8080/callback&response_type=code&scope=playlist-modify-public%20playlist-modify-private%20user-read-private')
 
       # Mock the user input
-      allow(auth).to receive(:gets).and_return('test_code')
+      allow(STDIN).to receive(:gets).and_return('test_code')
 
       # Mock successful token exchange
       token = double('OAuth2::AccessToken')

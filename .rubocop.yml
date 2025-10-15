@@ -1,11 +1,12 @@
 # .rubocop.yml
 AllCops:
   NewCops: enable
-  TargetRubyVersion: 3.0
+  TargetRubyVersion: 3.4
   Exclude:
     - 'vendor/**/*'
     - 'spec/fixtures/**/*'
   SuggestExtensions: false
+  DisabledByDefault: false
 
 Style/StringLiterals:
   EnforcedStyle: single_quotes
@@ -33,3 +34,9 @@ Style/FrozenStringLiteralComment:
 
 require:
   - rubocop-rspec
+
+Capybara/RSpec/PredicateMatcher:
+  Enabled: false
+
+RSpec/MultipleExpectations:
+  Max: 3
