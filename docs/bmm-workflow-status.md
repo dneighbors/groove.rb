@@ -77,7 +77,6 @@ A Ruby gem/script that syncs a text list of songs/artists to a Spotify playlist.
 ### IN PROGRESS (Approved for Development)
 
 **Epic 3 Stories Ready for Development:**
-- **Story 3.3**: GitHub Actions CI Pipeline (`story-3.3.md`)
 - **Story 3.4**: Brakeman Security Scanning (`story-3.4.md`)
 - **Story 3.5**: Test Suite Optimization (`story-3.5.md`)
 
@@ -93,8 +92,8 @@ A Ruby gem/script that syncs a text list of songs/artists to a Spotify playlist.
 | 3.1 | story-3.1.md | 2024-01-15 | 8 |
 | 3.2 | story-3.2.md | 2024-01-15 | 5 |
 
-**Total completed:** 5 stories  
-**Total points completed:** 29 points
+**Total completed:** 6 stories  
+**Total points completed:** 37 points
 
 ## Decision Log
 
@@ -108,6 +107,7 @@ A Ruby gem/script that syncs a text list of songs/artists to a Spotify playlist.
 - **2024-01-15**: Workflow status corrected. Stories 1.1-1.3 are Complete, Story 1.4 is next in TODO, Epic 3 stories are drafted and ready for development (created via BMad workflow).
 - **2024-01-15**: Story 3.1 (RuboCop Integration) COMPLETE. RuboCop v1.81.1 installed, configuration created, Rake integration working, 654 style issues auto-corrected. Documentation created. Next: Begin Story 3.2 (Overcommit Pre-commit Hooks).
 - **2024-01-15**: Story 3.2 (Overcommit Pre-commit Hooks) COMPLETE. Overcommit v0.68.0 installed, .overcommit.yml configuration created, pre-commit hooks installed and functional. RuboCop and RSpec hooks working, bypass functionality tested. Note: Brakeman hook will be added in Story 3.4. Next: Begin Story 3.3 (GitHub Actions CI Pipeline).
+- **2024-01-15**: Story 3.3 (GitHub Actions CI Pipeline) COMPLETE. GitHub Actions workflow created with multi-Ruby matrix (3.0, 3.1, 3.2), RuboCop integration, RSpec testing, and Brakeman security scanning. Caching optimized, artifact uploads configured, weekly scheduled runs enabled. All acceptance criteria met. Next: Begin Story 3.4 (Brakeman Security Scanning).
 
 ---
 
