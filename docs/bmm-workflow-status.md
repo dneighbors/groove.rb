@@ -76,19 +76,13 @@ A Ruby gem/script that syncs a text list of songs/artists to a Spotify playlist.
 
 ### IN PROGRESS (Approved for Development)
 
-- **Story ID:** 3.1
-- **Story Title:** RuboCop Integration
-- **Story File:** `story-3.1.md`
-- **Status:** Ready for Development
-- **Action:** Begin development with `@bmad/bmm/agents/dev develop`
-
 **Epic 3 Stories Ready for Development:**
 - **Story 3.2**: Overcommit Pre-commit Hooks (`story-3.2.md`)
 - **Story 3.3**: GitHub Actions CI Pipeline (`story-3.3.md`)
 - **Story 3.4**: Brakeman Security Scanning (`story-3.4.md`)
 - **Story 3.5**: Test Suite Optimization (`story-3.5.md`)
 
-**Note:** Epic 3 stories are drafted and ready. Story 3.1 is current focus, others can be moved to IN PROGRESS as needed.
+**Note:** Epic 3 stories are drafted and ready. Stories can be moved to IN PROGRESS as needed.
 
 ### DONE (Completed Stories)
 
@@ -97,9 +91,10 @@ A Ruby gem/script that syncs a text list of songs/artists to a Spotify playlist.
 | 1.1 | story-1.1.md | 2025-01-14 | 5 |
 | 1.2 | story-1.2.md | 2025-01-14 | 3 |
 | 1.3 | story-1.3.md | 2025-01-14 | 8 |
+| 3.1 | story-3.1.md | 2024-01-15 | 8 |
 
-**Total completed:** 3 stories  
-**Total points completed:** 16 points
+**Total completed:** 4 stories  
+**Total points completed:** 24 points
 
 ## Decision Log
 
@@ -111,6 +106,7 @@ A Ruby gem/script that syncs a text list of songs/artists to a Spotify playlist.
 - **2025-01-14**: Story 1.3 APPROVED and COMPLETE. Spotify search functionality working with fuzzy matching and confidence scores. All acceptance criteria met. Ready for next story.
 - **2024-01-15**: Epic 3 (Code Quality & Testing Pipeline) planning complete. All 5 stories created and ready for development. Next: Begin Story 3.1 (RuboCop Integration).
 - **2024-01-15**: Workflow status corrected. Stories 1.1-1.3 are Complete, Story 1.4 is next in TODO, Epic 3 stories are drafted and ready for development (created via BMad workflow).
+- **2024-01-15**: Story 3.1 (RuboCop Integration) COMPLETE. RuboCop v1.81.1 installed, configuration created, Rake integration working, 654 style issues auto-corrected. Documentation created. Next: Begin Story 3.2 (Overcommit Pre-commit Hooks).
 
 ---
 

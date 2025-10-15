@@ -24,7 +24,7 @@ RSpec.describe Groove::SpotifySearch do
         stub_request(:get, "#{Groove::SpotifySearch::SEARCH_ENDPOINT}")
           .with(
             query: {
-              q: "artist:The%20Beatles track:Hey%20Jude",
+              q: 'artist:The%20Beatles track:Hey%20Jude',
               type: 'track',
               limit: 10
             },
@@ -58,12 +58,12 @@ RSpec.describe Groove::SpotifySearch do
 
       it 'searches for a song successfully' do
         result = search.search_song(artist, title)
-        
+
         expect(result.results[:success]).to be true
         expect(result.results[:total_searches]).to eq(1)
         expect(result.results[:found_songs]).to eq(1)
         expect(result.results[:not_found_songs]).to eq(0)
-        
+
         song_result = result.results[:search_results].first
         expect(song_result[:found]).to be true
         expect(song_result[:original_artist]).to eq(artist)
@@ -78,7 +78,7 @@ RSpec.describe Groove::SpotifySearch do
 
       it 'returns error for missing access token' do
         result = search.search_song(artist, title)
-        
+
         expect(result.results[:success]).to be false
         expect(result.results[:errors]).to include('No access token provided')
       end
@@ -89,7 +89,7 @@ RSpec.describe Groove::SpotifySearch do
         stub_request(:get, "#{Groove::SpotifySearch::SEARCH_ENDPOINT}")
           .with(
             query: {
-              q: "artist:Unknown%20Artist track:Unknown%20Song",
+              q: 'artist:Unknown%20Artist track:Unknown%20Song',
               type: 'track',
               limit: 10
             },
@@ -104,11 +104,11 @@ RSpec.describe Groove::SpotifySearch do
 
       it 'handles not found songs gracefully' do
         result = search.search_song('Unknown Artist', 'Unknown Song')
-        
+
         expect(result.results[:success]).to be true
         expect(result.results[:found_songs]).to eq(0)
         expect(result.results[:not_found_songs]).to eq(1)
-        
+
         song_result = result.results[:search_results].first
         expect(song_result[:found]).to be false
         expect(song_result[:confidence]).to eq(0.0)
@@ -121,7 +121,7 @@ RSpec.describe Groove::SpotifySearch do
         stub_request(:get, "#{Groove::SpotifySearch::SEARCH_ENDPOINT}")
           .with(
             query: {
-              q: "artist:The%20Beatles track:Hey%20Jude",
+              q: 'artist:The%20Beatles track:Hey%20Jude',
               type: 'track',
               limit: 10
             },
@@ -132,7 +132,7 @@ RSpec.describe Groove::SpotifySearch do
 
       it 'handles authentication errors' do
         result = search.search_song(artist, title)
-        
+
         expect(result.results[:success]).to be false
         expect(result.results[:errors]).to include('Authentication failed: Invalid or expired access token')
       end
@@ -143,7 +143,7 @@ RSpec.describe Groove::SpotifySearch do
         stub_request(:get, "#{Groove::SpotifySearch::SEARCH_ENDPOINT}")
           .with(
             query: {
-              q: "artist:The%20Beatles track:Hey%20Jude",
+              q: 'artist:The%20Beatles track:Hey%20Jude',
               type: 'track',
               limit: 10
             },
@@ -154,7 +154,7 @@ RSpec.describe Groove::SpotifySearch do
 
       it 'handles rate limit errors' do
         result = search.search_song(artist, title)
-        
+
         expect(result.results[:success]).to be false
         expect(result.results[:errors]).to include('Rate limit exceeded: Too many requests to Spotify API')
       end
@@ -173,7 +173,7 @@ RSpec.describe Groove::SpotifySearch do
       stub_request(:get, "#{Groove::SpotifySearch::SEARCH_ENDPOINT}")
         .with(
           query: {
-            q: "artist:The%20Beatles track:Hey%20Jude",
+            q: 'artist:The%20Beatles track:Hey%20Jude',
             type: 'track',
             limit: 10
           },
@@ -203,7 +203,7 @@ RSpec.describe Groove::SpotifySearch do
       stub_request(:get, "#{Groove::SpotifySearch::SEARCH_ENDPOINT}")
         .with(
           query: {
-            q: "artist:Queen track:Bohemian%20Rhapsody",
+            q: 'artist:Queen track:Bohemian%20Rhapsody',
             type: 'track',
             limit: 10
           },
@@ -233,7 +233,7 @@ RSpec.describe Groove::SpotifySearch do
 
     it 'searches for multiple songs' do
       result = search.search_songs(songs)
-      
+
       expect(result.results[:success]).to be true
       expect(result.results[:total_searches]).to eq(2)
     end

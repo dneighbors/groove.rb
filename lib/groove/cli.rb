@@ -1,25 +1,25 @@
 # frozen_string_literal: true
 
-require "thor"
-require "groove"
+require 'thor'
+require 'groove'
 
 module Groove
   class CLI < Thor
-    desc "auth SUBCOMMAND", "Authentication commands"
-    subcommand "auth", Auth
+    desc 'auth SUBCOMMAND', 'Authentication commands'
+    subcommand 'auth', Auth
 
-    desc "parse SUBCOMMAND", "File parsing commands"
-    subcommand "parse", Parse
+    desc 'parse SUBCOMMAND', 'File parsing commands'
+    subcommand 'parse', Parse
 
-    desc "search SUBCOMMAND", "Spotify search commands"
-    subcommand "search", Search
+    desc 'search SUBCOMMAND', 'Spotify search commands'
+    subcommand 'search', Search
 
-    desc "version", "Show version information"
+    desc 'version', 'Show version information'
     def version
       say "Groove v#{Groove::VERSION}"
     end
 
-    desc "help", "Show help information"
+    desc 'help', 'Show help information'
     def help
       say <<~HELP
         Groove - Sync text lists to Spotify playlists

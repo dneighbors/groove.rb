@@ -1,16 +1,16 @@
 # frozen_string_literal: true
 
-require "thor"
-require "groove/authentication"
-require "groove/configuration"
+require 'thor'
+require 'groove/authentication'
+require 'groove/configuration'
 
 module Groove
   class Auth < Thor
-    desc "login", "Authenticate with Spotify"
+    desc 'login', 'Authenticate with Spotify'
     def login
       config = Configuration.new
       auth = Authentication.new(config)
-      
+
       begin
         auth.login
       rescue Authentication::Error => e
@@ -19,14 +19,14 @@ module Groove
       end
     end
 
-    desc "logout", "Clear authentication tokens"
+    desc 'logout', 'Clear authentication tokens'
     def logout
       config = Configuration.new
       auth = Authentication.new(config)
       auth.logout
     end
 
-    desc "status", "Check authentication status"
+    desc 'status', 'Check authentication status'
     def status
       config = Configuration.new
       auth = Authentication.new(config)

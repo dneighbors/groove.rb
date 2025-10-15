@@ -64,6 +64,7 @@ GEM
     racc (1.8.1)
     rack (3.2.3)
     rainbow (3.1.1)
+    rake (13.3.0)
     regexp_parser (2.11.3)
     rexml (3.4.4)
     rspec (3.13.1)
@@ -128,6 +129,7 @@ PLATFORMS
 
 DEPENDENCIES
   groove!
+  rake (~> 13.0)
   rspec (~> 3.12)
   rubocop (~> 1.57)
   rubocop-rspec (~> 2.25)

@@ -6,7 +6,7 @@ RSpec.describe Groove::Models::Artist do
   describe '#initialize' do
     it 'creates an artist with name' do
       artist = described_class.new(name: 'The Beatles')
-      
+
       expect(artist.name).to eq('The Beatles')
       expect(artist.spotify_id).to be_nil
       expect(artist.metadata).to eq({})
@@ -23,7 +23,7 @@ RSpec.describe Groove::Models::Artist do
         spotify_id: 'abc123',
         metadata: { genre: 'rock' }
       )
-      
+
       expect(artist.spotify_id).to eq('abc123')
       expect(artist.metadata).to eq({ genre: 'rock' })
     end
@@ -40,14 +40,14 @@ RSpec.describe Groove::Models::Artist do
     it 'compares artists by name (case insensitive)' do
       artist1 = described_class.new(name: 'The Beatles')
       artist2 = described_class.new(name: 'the beatles')
-      
+
       expect(artist1).to eq(artist2)
     end
 
     it 'returns false for different artists' do
       artist1 = described_class.new(name: 'The Beatles')
       artist2 = described_class.new(name: 'Queen')
-      
+
       expect(artist1).not_to eq(artist2)
     end
   end
@@ -76,14 +76,14 @@ RSpec.describe Groove::Models::Artist do
         spotify_id: 'abc123',
         metadata: { genre: 'rock' }
       )
-      
+
       hash = artist.to_hash
-      
+
       expect(hash).to eq({
-        name: 'The Beatles',
-        spotify_id: 'abc123',
-        metadata: { genre: 'rock' }
-      })
+                           name: 'The Beatles',
+                           spotify_id: 'abc123',
+                           metadata: { genre: 'rock' }
+                         })
     end
   end
 
@@ -94,9 +94,9 @@ RSpec.describe Groove::Models::Artist do
         spotify_id: 'abc123',
         metadata: { genre: 'rock' }
       }
-      
+
       artist = described_class.from_hash(hash)
-      
+
       expect(artist.name).to eq('The Beatles')
       expect(artist.spotify_id).to eq('abc123')
       expect(artist.metadata).to eq({ genre: 'rock' })
@@ -108,9 +108,9 @@ RSpec.describe Groove::Models::Artist do
         'spotify_id' => 'abc123',
         'metadata' => { 'genre' => 'rock' }
       }
-      
+
       artist = described_class.from_hash(hash)
-      
+
       expect(artist.name).to eq('The Beatles')
       expect(artist.spotify_id).to eq('abc123')
       expect(artist.metadata).to eq({ 'genre' => 'rock' })

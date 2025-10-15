@@ -12,11 +12,11 @@ RSpec.describe Groove::FileParser do
 
       it 'parses CSV file successfully' do
         result = parser.parse_file(csv_file)
-        
+
         expect(result.results[:success]).to be true
         expect(result.results[:total_songs]).to eq(5)
         expect(result.results[:errors]).to be_empty
-        
+
         songs = result.results[:songs]
         expect(songs.first.artist).to eq('The Beatles')
         expect(songs.first.title).to eq('Hey Jude')
@@ -30,11 +30,11 @@ RSpec.describe Groove::FileParser do
 
       it 'parses TXT file successfully' do
         result = parser.parse_file(txt_file)
-        
+
         expect(result.results[:success]).to be true
         expect(result.results[:total_songs]).to eq(5)
         expect(result.results[:errors]).to be_empty
-        
+
         songs = result.results[:songs]
         expect(songs.first.artist).to eq('The Beatles')
         expect(songs.first.title).to eq('Hey Jude')
@@ -46,11 +46,11 @@ RSpec.describe Groove::FileParser do
 
       it 'parses JSON file successfully' do
         result = parser.parse_file(json_file)
-        
+
         expect(result.results[:success]).to be true
         expect(result.results[:total_songs]).to eq(5)
         expect(result.results[:errors]).to be_empty
-        
+
         songs = result.results[:songs]
         expect(songs.first.artist).to eq('The Beatles')
         expect(songs.first.title).to eq('Hey Jude')
@@ -61,7 +61,7 @@ RSpec.describe Groove::FileParser do
     context 'with non-existent file' do
       it 'returns error for missing file' do
         result = parser.parse_file('nonexistent.txt')
-        
+
         expect(result.results[:success]).to be false
         expect(result.results[:errors]).to include('File not found: nonexistent.txt')
         expect(result.results[:total_songs]).to eq(0)
@@ -82,7 +82,7 @@ RSpec.describe Groove::FileParser do
 
       it 'handles malformed CSV gracefully' do
         result = parser.parse_file(temp_file.path)
-        
+
         expect(result.results[:success]).to be true
         expect(result.results[:warnings]).not_to be_empty
       end
@@ -102,7 +102,7 @@ RSpec.describe Groove::FileParser do
 
       it 'returns error for malformed JSON' do
         result = parser.parse_file(temp_file.path)
-        
+
         expect(result.results[:success]).to be false
         expect(result.results[:errors]).not_to be_empty
       end
@@ -120,7 +120,7 @@ RSpec.describe Groove::FileParser do
 
     it 'parses multiple files successfully' do
       result = parser.parse_files(files)
-      
+
       expect(result.results[:success]).to be true
       expect(result.results[:total_songs]).to eq(15) # 5 songs × 3 files
       expect(result.results[:errors]).to be_empty
@@ -129,7 +129,7 @@ RSpec.describe Groove::FileParser do
     it 'handles mixed valid and invalid files' do
       mixed_files = files + ['nonexistent.txt']
       result = parser.parse_files(mixed_files)
-      
+
       expect(result.results[:success]).to be false
       expect(result.results[:total_songs]).to eq(15)
       expect(result.results[:errors]).to include('File not found: nonexistent.txt')
@@ -141,12 +141,12 @@ RSpec.describe Groove::FileParser do
       temp_file = Tempfile.new(['test', '.csv'])
       temp_file.write('artist,song')
       temp_file.close
-      
+
       content = File.read(temp_file.path)
       format = parser.send(:detect_format, temp_file.path, content)
-      
+
       expect(format).to eq('csv')
-      
+
       temp_file.unlink
     end
 
@@ -154,12 +154,12 @@ RSpec.describe Groove::FileParser do
       temp_file = Tempfile.new(['test', '.unknown'])
       temp_file.write('{"songs": []}')
       temp_file.close
-      
+
       content = File.read(temp_file.path)
       format = parser.send(:detect_format, temp_file.path, content)
-      
+
       expect(format).to eq('json')
-      
+
       temp_file.unlink
     end
 
@@ -167,12 +167,12 @@ RSpec.describe Groove::FileParser do
       temp_file = Tempfile.new(['test', '.txt'])
       temp_file.write('Artist - Song')
       temp_file.close
-      
+
       content = File.read(temp_file.path)
       format = parser.send(:detect_format, temp_file.path, content)
-      
+
       expect(format).to eq('txt')
-      
+
       temp_file.unlink
     end
   end
@@ -183,12 +183,12 @@ RSpec.describe Groove::FileParser do
       # Write binary data that will cause encoding issues
       temp_file.write("\xFF\xFE\x00\x00")
       temp_file.close
-      
+
       result = parser.parse_file(temp_file.path)
-      
+
       # Should either have warnings or errors, but should not crash
       expect(result.results[:warnings].any? || result.results[:errors].any?).to be true
-      
+
       temp_file.unlink
     end
   end

@@ -12,7 +12,7 @@ module Groove
     class RateLimitError < Error; end
     class SearchError < Error; end
 
-    SPOTIFY_API_BASE = 'https://api.spotify.com/v1'.freeze
+    SPOTIFY_API_BASE = 'https://api.spotify.com/v1'
     SEARCH_ENDPOINT = "#{SPOTIFY_API_BASE}/search".freeze
     RATE_LIMIT_DELAY = 0.1 # 100ms between requests to stay under rate limits
 
@@ -29,16 +29,16 @@ module Groove
     # Search for a single song
     def search_song(artist, title)
       reset_state
-      
+
       unless @access_token
-        @errors << "No access token provided"
+        @errors << 'No access token provided'
         return self
       end
 
       begin
         query = build_search_query(artist, title)
         response = make_search_request(query)
-        
+
         if response.success?
           parse_search_results(response.body, artist, title)
         else
@@ -54,7 +54,7 @@ module Groove
     # Search for multiple songs
     def search_songs(songs)
       reset_state
-      
+
       songs.each do |song|
         search_song_internal(song.artist, song.title)
         sleep(RATE_LIMIT_DELAY) # Rate limiting
@@ -66,14 +66,14 @@ module Groove
     # Internal method to search a song without resetting state
     def search_song_internal(artist, title)
       unless @access_token
-        @errors << "No access token provided"
+        @errors << 'No access token provided'
         return
       end
 
       begin
         query = build_search_query(artist, title)
         response = make_search_request(query)
-        
+
         if response.success?
           parse_search_results(response.body, artist, title)
         else
@@ -109,21 +109,20 @@ module Groove
       # Clean and normalize the search terms
       clean_artist = clean_search_term(artist)
       clean_title = clean_search_term(title)
-      
+
       # Build query with artist and track - don't encode the field names
       "artist:#{clean_artist} track:#{clean_title}"
     end
 
     def clean_search_term(term)
       # Remove common words that might interfere with search
-      cleaned = term.to_s.strip
-        .gsub(/\b(feat\.?|featuring|ft\.?|ft|&|vs\.?|vs)\b/i, '')
-        .gsub(/[^\w\s-]/, '')
-        .gsub(/\s+/, ' ')
-        .strip
-      
+      term.to_s.strip
+          .gsub(/\b(feat\.?|featuring|ft\.?|ft|&|vs\.?|vs)\b/i, '')
+          .gsub(/[^\w\s-]/, '')
+          .gsub(/\s+/, ' ')
+          .strip
+
       # Return cleaned term without URL encoding - let Faraday handle that
-      cleaned
     end
 
     def make_search_request(query)
@@ -149,7 +148,7 @@ module Groove
 
     def parse_search_results(response_body, original_artist, original_title)
       tracks = response_body.dig('tracks', 'items') || []
-      
+
       if tracks.empty?
         @search_results << {
           original_artist: original_artist,
@@ -164,7 +163,7 @@ module Groove
 
       # Find the best match
       best_match = find_best_match(tracks, original_artist, original_title)
-      
+
       @search_results << {
         original_artist: original_artist,
         original_title: original_title,
@@ -182,14 +181,14 @@ module Groove
 
       tracks.each do |track|
         score = calculate_match_score(track, original_artist, original_title)
-        
-        if score > best_score
-          best_score = score
-          best_match = {
-            track: format_track_info(track),
-            confidence: score
-          }
-        end
+
+        next unless score > best_score
+
+        best_score = score
+        best_match = {
+          track: format_track_info(track),
+          confidence: score
+        }
       end
 
       best_match || { track: format_track_info(tracks.first), confidence: 0.1 }
@@ -198,69 +197,69 @@ module Groove
     def calculate_match_score(track, original_artist, original_title)
       track_name = track['name'].to_s.downcase
       track_artists = track['artists'].map { |a| a['name'].to_s.downcase }
-      
+
       original_artist_clean = original_artist.to_s.downcase
       original_title_clean = original_title.to_s.downcase
 
       # Artist matching (weighted heavily)
       artist_score = calculate_artist_score(track_artists, original_artist_clean)
-      
+
       # Title matching
       title_score = calculate_title_score(track_name, original_title_clean)
-      
+
       # Popularity bonus (Spotify popularity 0-100)
       popularity_score = track['popularity'].to_f / 100.0 * 0.1
-      
+
       # Combine scores
       (artist_score * 0.7) + (title_score * 0.3) + popularity_score
     end
 
     def calculate_artist_score(track_artists, original_artist)
       return 0.0 if track_artists.empty?
-      
+
       # Exact match
       return 1.0 if track_artists.include?(original_artist)
-      
+
       # Partial matches
       best_score = 0.0
       track_artists.each do |track_artist|
         # Check if original artist contains track artist or vice versa
         if track_artist.include?(original_artist) || original_artist.include?(track_artist)
-          score = [track_artist.length, original_artist.length].min.to_f / 
+          score = [track_artist.length, original_artist.length].min.to_f /
                   [track_artist.length, original_artist.length].max
           best_score = [best_score, score].max
         end
-        
+
         # Check for common words
         original_words = original_artist.split(/\s+/)
         track_words = track_artist.split(/\s+/)
         common_words = original_words & track_words
-        
+
         if common_words.any?
           word_score = common_words.length.to_f / [original_words.length, track_words.length].max
           best_score = [best_score, word_score * 0.8].max
         end
       end
-      
+
       best_score
     end
 
     def calculate_title_score(track_name, original_title)
       return 1.0 if track_name == original_title
-      
+
       # Partial match
       if track_name.include?(original_title) || original_title.include?(track_name)
-        return [track_name.length, original_title.length].min.to_f / 
+        return [track_name.length, original_title.length].min.to_f /
                [track_name.length, original_title.length].max
       end
-      
+
       # Word-based matching
       original_words = original_title.split(/\s+/)
       track_words = track_name.split(/\s+/)
       common_words = original_words & track_words
-      
+
       return 0.0 if common_words.empty?
-      
+
       common_words.length.to_f / [original_words.length, track_words.length].max
     end
 
@@ -284,10 +283,10 @@ module Groove
     def handle_api_error(response)
       case response.status
       when 401
-        @errors << "Authentication failed: Invalid or expired access token"
+        @errors << 'Authentication failed: Invalid or expired access token'
       when 429
-        @errors << "Rate limit exceeded: Too many requests to Spotify API"
-        @warnings << "Consider implementing exponential backoff"
+        @errors << 'Rate limit exceeded: Too many requests to Spotify API'
+        @warnings << 'Consider implementing exponential backoff'
       when 400..499
         @errors << "Client error: #{response.status} - #{response.body}"
       when 500..599

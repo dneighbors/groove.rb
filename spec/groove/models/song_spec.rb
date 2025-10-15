@@ -6,7 +6,7 @@ RSpec.describe Groove::Models::Song do
   describe '#initialize' do
     it 'creates a song with artist and title' do
       song = described_class.new(artist: 'The Beatles', title: 'Hey Jude')
-      
+
       expect(song.artist).to eq('The Beatles')
       expect(song.title).to eq('Hey Jude')
       expect(song.confidence).to eq(1.0)
@@ -16,7 +16,7 @@ RSpec.describe Groove::Models::Song do
 
     it 'strips whitespace from artist and title' do
       song = described_class.new(artist: '  The Beatles  ', title: '  Hey Jude  ')
-      
+
       expect(song.artist).to eq('The Beatles')
       expect(song.title).to eq('Hey Jude')
     end
@@ -29,7 +29,7 @@ RSpec.describe Groove::Models::Song do
         spotify_id: 'abc123',
         metadata: { genre: 'rock' }
       )
-      
+
       expect(song.confidence).to eq(0.8)
       expect(song.spotify_id).to eq('abc123')
       expect(song.metadata).to eq({ genre: 'rock' })
@@ -47,14 +47,14 @@ RSpec.describe Groove::Models::Song do
     it 'compares songs by artist and title (case insensitive)' do
       song1 = described_class.new(artist: 'The Beatles', title: 'Hey Jude')
       song2 = described_class.new(artist: 'the beatles', title: 'HEY JUDE')
-      
+
       expect(song1).to eq(song2)
     end
 
     it 'returns false for different songs' do
       song1 = described_class.new(artist: 'The Beatles', title: 'Hey Jude')
       song2 = described_class.new(artist: 'Queen', title: 'Bohemian Rhapsody')
-      
+
       expect(song1).not_to eq(song2)
     end
   end
@@ -90,16 +90,16 @@ RSpec.describe Groove::Models::Song do
         spotify_id: 'abc123',
         metadata: { genre: 'rock' }
       )
-      
+
       hash = song.to_hash
-      
+
       expect(hash).to eq({
-        artist: 'The Beatles',
-        title: 'Hey Jude',
-        confidence: 0.8,
-        spotify_id: 'abc123',
-        metadata: { genre: 'rock' }
-      })
+                           artist: 'The Beatles',
+                           title: 'Hey Jude',
+                           confidence: 0.8,
+                           spotify_id: 'abc123',
+                           metadata: { genre: 'rock' }
+                         })
     end
   end
 
@@ -112,9 +112,9 @@ RSpec.describe Groove::Models::Song do
         spotify_id: 'abc123',
         metadata: { genre: 'rock' }
       }
-      
+
       song = described_class.from_hash(hash)
-      
+
       expect(song.artist).to eq('The Beatles')
       expect(song.title).to eq('Hey Jude')
       expect(song.confidence).to eq(0.8)
@@ -130,9 +130,9 @@ RSpec.describe Groove::Models::Song do
         'spotify_id' => 'abc123',
         'metadata' => { 'genre' => 'rock' }
       }
-      
+
       song = described_class.from_hash(hash)
-      
+
       expect(song.artist).to eq('The Beatles')
       expect(song.title).to eq('Hey Jude')
       expect(song.confidence).to eq(0.8)

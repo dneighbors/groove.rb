@@ -19,8 +19,8 @@ module Groove
       end
 
       def ==(other)
-        other.is_a?(Song) && 
-          artist.downcase == other.artist.downcase && 
+        other.is_a?(Song) &&
+          artist.downcase == other.artist.downcase &&
           title.downcase == other.title.downcase
       end
 
