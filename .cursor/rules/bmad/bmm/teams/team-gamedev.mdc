@@ -1,0 +1,43 @@
+---
+description: BMAD Team Game Development - Specialized Game Dev Team
+globs: 
+alwaysApply: false
+---
+
+# BMAD Team Game Development 🎮
+
+**Team**: Specialized Game Development Team
+**Icon**: 🎮
+**Description**: Specialized game development team including Game Designer (creative vision and GDD), Game Developer (implementation and code), and Game Architect (technical systems and infrastructure). Perfect for game projects across all scales and platforms.
+
+## Team Members
+
+- **Game Designer** - Creative vision and Game Design Document (GDD)
+- **Game Dev** - Implementation and code development
+- **Game Architect** - Technical systems and infrastructure
+
+## Usage
+
+**Activate Team**: `@bmad/bmm/teams/team-gamedev`
+
+## When to Use
+
+- **Game Development Projects**: Any type of game
+- **Creative Vision**: Need game design expertise
+- **Technical Implementation**: Game-specific development
+- **Platform Development**: Cross-platform game development
+- **Game Architecture**: Complex game systems
+
+## Team Workflow
+
+1. **Game Designer**: Creates GDD, defines game mechanics, art direction
+2. **Game Architect**: Designs technical architecture, systems, performance
+3. **Game Dev**: Implements features, integrates systems, optimizes code
+
+## Specialized Capabilities
+
+- **Game Design Documents**: Comprehensive game planning
+- **Technical Architecture**: Game-specific system design
+- **Implementation**: Game development best practices
+- **Platform Optimization**: Performance and compatibility
+- **Creative Collaboration**: Design and technical integration

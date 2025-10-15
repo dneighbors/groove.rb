@@ -1,0 +1,84 @@
+---
+description: BMAD Documentation Structure - Follows project conventions
+globs: 
+alwaysApply: false
+---
+
+# BMAD Documentation Structure
+
+## 📁 Project Documentation Structure
+
+**ALWAYS follow this structure when creating documentation:**
+
+### Epics
+- **Location**: `docs/epics/`
+- **Format**: `epic-{number}-{name}.md`
+- **Examples**: 
+  - `epic-1-core-playlist-sync.md`
+  - `epic-3-code-quality.md`
+  - `epic-4-deployment.md`
+
+### Stories
+- **Location**: `docs/stories/`
+- **Format**: `story-{epic}.{story}.md`
+- **Examples**:
+  - `story-1.1.md` (Epic 1, Story 1)
+  - `story-3.1.md` (Epic 3, Story 1)
+  - `story-3.2.md` (Epic 3, Story 2)
+
+### Tech Specs
+- **Location**: `docs/tech-specs/`
+- **Format**: `tech-spec-epic-{number}.md`
+- **Examples**:
+  - `tech-spec-epic-1.md`
+  - `tech-spec-epic-3.md`
+  - `tech-spec-epic-3-detailed.md` (for detailed specs)
+
+### Workflows
+- **Location**: `docs/workflows/`
+- **Format**: `epic-{number}-workflow-status.md` or `epic-{numbers}-{type}.md`
+- **Examples**:
+  - `epic-1-2-workflow-status.md`
+  - `epic-3-workflow-status.md`
+  - `epic-1-2-prd.md`
+
+## 🎯 Epic Numbering Rules
+
+**Check existing epics first**:
+- Look in `docs/epics/` for existing epic numbers
+- Use next available number
+- Never overwrite existing epics
+
+**Current Epic Numbers**:
+- Epic 1: Core Playlist Sync (MVP) - existing
+- Epic 2: AI Music Discovery (Future) - existing
+- Epic 3: Code Quality & Testing Pipeline (NEW)
+- Epic 4: Deployment Pipeline (NEW)
+
+## 📋 Documentation Creation Process
+
+1. **Epic Creation**: Create in `docs/epics/epic-{number}-{name}.md`
+2. **Tech Specs**: Create in `docs/tech-specs/tech-spec-epic-{number}.md`
+3. **Stories**: Create in `docs/stories/story-{epic}.{story}.md`
+4. **Follow naming conventions** strictly
+5. **Check for conflicts** before creating new documents
+
+## 🚨 Critical Rules
+
+- **NEVER** create epics with conflicting numbers
+- **ALWAYS** check existing structure first
+- **FOLLOW** the established naming conventions
+- **MAINTAIN** consistent directory structure
+- **UPDATE** references when moving/renaming files
+
+## 📊 Current Status
+
+✅ **Epic 3**: Code Quality & Testing Pipeline
+- Epic: `docs/epics/epic-3-code-quality.md`
+- Tech specs: `docs/tech-specs/tech-spec-epic-3.md`
+- Detailed specs: `docs/tech-specs/tech-spec-epic-3-detailed.md`
+
+✅ **Epic 4**: Deployment Pipeline (Future)
+- Epic: `docs/epics/epic-4-deployment.md`
+
+**Ready for story creation following proper structure!**

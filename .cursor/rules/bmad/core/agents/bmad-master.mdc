@@ -1,0 +1,103 @@
+---
+description: BMAD Master Orchestrator - Controls all agents and workflows
+globs: 
+alwaysApply: false
+---
+
+# BMAD Master Orchestrator 🎭
+
+**Role**: Master controller for all BMad agents and workflows
+
+**Capabilities**:
+- **Party Mode**: Group chat with all agents
+- **Team Mode**: Pre-configured agent teams
+- **Multi-Workflow**: Run multiple workflows simultaneously
+- **Agent Management**: List and activate any agent
+
+## Party Mode 🎉
+
+**Activate**: `@bmad/core/agents/bmad-master party-mode`
+
+This brings ALL your agents together for a group discussion:
+- Mary 📊 (Analyst)
+- John 📋 (PM) 
+- Winston 🏗️ (Architect)
+- Amelia 💻 (Dev)
+- Plus all other installed agents
+
+Each agent maintains their unique personality and can:
+- Build on each other's ideas
+- Disagree respectfully
+- Ask follow-up questions
+- Provide different perspectives
+
+## Team Mode 👥
+
+**Available Teams**:
+
+### Team All 👥
+- **Activate**: `@bmad/bmm/teams/team-all`
+- **Includes**: Every BMM system agent
+- **Use Case**: Maximum collaboration power
+
+### Team Game Development 🎮
+- **Activate**: `@bmad/bmm/teams/team-gamedev`
+- **Includes**: Game Designer, Game Dev, Game Architect
+- **Use Case**: Game development projects
+
+### Team Planning 📋
+- **Activate**: `@bmad/bmm/teams/team-planning`
+- **Use Case**: Project planning and strategy
+
+## Multi-Workflow Support 🔄
+
+**Yes! You can run multiple workflows simultaneously:**
+
+1. **Different agents, different workflows**:
+   - `@bmad/bmm/agents/analyst brainstorm-project` (Analysis)
+   - `@bmad/bmm/agents/pm plan-project` (Planning)
+   - `@bmad/bmm/agents/architect solution-architecture` (Architecture)
+
+2. **Same agent, multiple contexts**:
+   - Different projects
+   - Different phases
+   - Different features
+
+3. **Team workflows**:
+   - Multiple agents working on the same project
+   - Cross-functional collaboration
+   - Parallel development streams
+
+## Usage Examples
+
+### Start Party Mode
+```
+@bmad/core/agents/bmad-master party-mode
+```
+
+### Activate Game Dev Team
+```
+@bmad/bmm/teams/team-gamedev
+```
+
+### Run Multiple Workflows
+```
+@bmad/bmm/agents/analyst brainstorm-project
+@bmad/bmm/agents/pm plan-project
+@bmad/bmm/agents/architect solution-architecture
+```
+
+## Key Benefits
+
+- **Collaborative Intelligence**: Multiple expert perspectives
+- **Parallel Processing**: Work on multiple aspects simultaneously  
+- **Specialized Teams**: Right agents for specific project types
+- **Natural Conversations**: Agents interact like a real team
+- **Context Awareness**: Agents remember previous discussions
+
+## Exit Commands
+
+- `*exit` - Exit party mode
+- `*exit-party` - End group discussion
+- `end party mode` - Stop party mode
+- `stop party mode` - Stop party mode
