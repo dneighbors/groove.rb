@@ -1,9 +1,0 @@
-{
-  "version": "6.0.0-alpha.0",
-  "installedModules": ["bmm", "bmb", "cis"],
-  "ides": ["cursor"],
-  "userName": "Developer",
-  "language": "English",
-  "installationDate": "2025-10-15",
-  "projectRoot": "/home/dneighbors/Public/groove.rb"
-}
