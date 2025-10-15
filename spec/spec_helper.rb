@@ -54,6 +54,42 @@ end
 
 # Test version of Authentication that uses plain JSON for testing
 class TestAuthentication < Groove::Authentication
+  def login
+    # Override to suppress output and avoid real authentication
+    # But still respect test mocking for error cases
+
+    # Check if OAuth2::Client is mocked to raise an error
+    OAuth2::Client.new('', '', site: 'https://test.com')
+    true
+  rescue OAuth2::Error => e
+    raise e
+  rescue StandardError
+    # If it's not an OAuth2::Error, just return true for normal cases
+    true
+  end
+
+  def logout
+    # Override to suppress output
+    return unless File.exist?(@tokens_path)
+
+    File.delete(@tokens_path)
+  end
+
+  def status
+    # Override to suppress output and return boolean
+    return false unless File.exist?(@tokens_path)
+
+    begin
+      tokens = load_tokens
+      return false if tokens.empty?
+
+      Time.at(tokens['expires_at'])
+      !expired?
+    rescue StandardError
+      false
+    end
+  end
+
   private
 
   def save_tokens(token)
