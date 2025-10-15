@@ -12,7 +12,7 @@ Gem::Specification.new do |spec|
   spec.description = 'A Ruby gem that syncs text lists of songs and artists to Spotify playlists, with future AI-powered music discovery capabilities.'
   spec.homepage = 'https://github.com/dneighbors/groove.rb'
   spec.license = 'MIT'
-  spec.required_ruby_version = '>= 3.0.0'
+  spec.required_ruby_version = '>= 3.4.0'
 
   spec.metadata['allowed_push_host'] = 'https://rubygems.org'
   spec.metadata['homepage_uri'] = spec.homepage
