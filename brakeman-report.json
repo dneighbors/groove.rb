@@ -3,9 +3,9 @@
     "app_path": "/home/dneighbors/Public/groove.rb",
     "rails_version": "4.x",
     "security_warnings": 0,
-    "start_time": "2025-10-15 12:33:10 -0700",
-    "end_time": "2025-10-15 12:33:11 -0700",
-    "duration": 0.225581954,
+    "start_time": "2025-10-15 12:53:18 -0700",
+    "end_time": "2025-10-15 12:53:19 -0700",
+    "duration": 0.245152396,
     "checks_performed": [
       "BasicAuth",
       "BasicAuthTimingAttack",
