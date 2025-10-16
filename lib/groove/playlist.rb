@@ -66,17 +66,31 @@ module Groove
       say "Found #{songs.length} songs", :green
 
       # Search for tracks on Spotify
-      say 'Searching for tracks on Spotify...', :yellow
+      say "Searching for tracks on Spotify (#{songs.length} songs)...", :yellow
       search = SpotifySearch.new(auth.access_token)
-      search.search_songs(songs)
+
+      songs.each_with_index do |song, index|
+        search.search_song_internal(song.artist, song.title)
+        say "  Progress: #{index + 1}/#{songs.length}", :cyan if ((index + 1) % 10).zero? || index == songs.length - 1
+        sleep(0.1)
+      end
+
       results = search.results
+      found_tracks = results[:search_results].select { |r| r[:found] }
+      not_found_tracks = results[:search_results].reject { |r| r[:found] }
 
-      track_ids = results[:search_results]
-                  .select { |r| r[:found] }
-                  .map { |r| r.dig(:spotify_track, :id) }
-                  .compact
+      track_ids = found_tracks.map { |r| r.dig(:spotify_track, :id) }.compact
 
-      say "Found #{track_ids.length} matching tracks on Spotify", :green
+      say "Found #{track_ids.length} of #{songs.length} tracks on Spotify", :green
+
+      if not_found_tracks.any?
+        say "\n⚠️  Could not find #{not_found_tracks.length} tracks:", :yellow
+        not_found_tracks.first(10).each do |track|
+          say "   - #{track[:original_artist]} - #{track[:original_title]}", :yellow
+        end
+        say "   ... and #{not_found_tracks.length - 10} more" if not_found_tracks.length > 10
+        say ''
+      end
 
       if track_ids.empty?
         say '❌ No tracks found on Spotify', :red
@@ -97,7 +111,7 @@ module Groove
 
       if result[:success]
         say '✅ Tracks added successfully!', :green
-        say "   Added: #{result[:added]} tracks"
+        say "   Added: #{result[:added]} of #{songs.length} tracks"
         say "   Skipped: #{result[:skipped]} duplicates" if result[:skipped].positive?
       else
         say '❌ Failed to add tracks', :red
@@ -142,17 +156,31 @@ module Groove
       say "Found #{songs.length} songs", :green
 
       # Search for tracks on Spotify
-      say 'Searching for tracks on Spotify...', :yellow
+      say "Searching for tracks on Spotify (#{songs.length} songs)...", :yellow
       search = SpotifySearch.new(auth.access_token)
-      search.search_songs(songs)
+
+      songs.each_with_index do |song, index|
+        search.search_song_internal(song.artist, song.title)
+        say "  Progress: #{index + 1}/#{songs.length}", :cyan if ((index + 1) % 10).zero? || index == songs.length - 1
+        sleep(0.1)
+      end
+
       results = search.results
+      found_tracks = results[:search_results].select { |r| r[:found] }
+      not_found_tracks = results[:search_results].reject { |r| r[:found] }
 
-      track_ids = results[:search_results]
-                  .select { |r| r[:found] }
-                  .map { |r| r.dig(:spotify_track, :id) }
-                  .compact
+      track_ids = found_tracks.map { |r| r.dig(:spotify_track, :id) }.compact
 
-      say "Found #{track_ids.length} matching tracks on Spotify", :green
+      say "Found #{track_ids.length} of #{songs.length} tracks on Spotify", :green
+
+      if not_found_tracks.any?
+        say "\n⚠️  Could not find #{not_found_tracks.length} tracks:", :yellow
+        not_found_tracks.first(10).each do |track|
+          say "   - #{track[:original_artist]} - #{track[:original_title]}", :yellow
+        end
+        say "   ... and #{not_found_tracks.length - 10} more" if not_found_tracks.length > 10
+        say ''
+      end
 
       if track_ids.empty?
         say '❌ No tracks found on Spotify', :red
@@ -187,7 +215,7 @@ module Groove
       if result[:success]
         say '✅ Sync complete!', :green
         say "   Playlist: #{playlist[:name]}"
-        say "   Added: #{result[:added]} tracks"
+        say "   Added: #{result[:added]} of #{songs.length} tracks"
         say "   Skipped: #{result[:skipped]} duplicates" if result[:skipped].positive?
         say "   URL: #{playlist.dig(:external_urls, 'spotify')}" if playlist.dig(:external_urls, 'spotify')
       else

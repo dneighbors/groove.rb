@@ -27,11 +27,10 @@ RSpec.configure do |config|
 
   # Clean up test files after each test
   config.after do
-    temp_config = File.expand_path('~/.config/groove/config.yaml')
-    temp_tokens = File.expand_path('~/.config/groove/tokens.json')
-
-    FileUtils.rm_f(temp_config)
-    FileUtils.rm_f(temp_tokens)
+    # Only clean up test-specific temp files, NOT the user's actual config!
+    # Tests should use TestConfiguration/TestAuthentication which don't touch real files
+    test_temp_dir = File.join(Dir.tmpdir, 'groove_test')
+    FileUtils.rm_rf(test_temp_dir)
   end
 end
 
@@ -54,6 +53,12 @@ end
 
 # Test version of Authentication that uses plain JSON for testing
 class TestAuthentication < Groove::Authentication
+  def initialize(config)
+    super
+    # Override to use test-specific path instead of real user path
+    @tokens_path = File.join(Dir.tmpdir, 'groove_test', 'tokens.json')
+  end
+
   def login
     # Override to suppress output and avoid real authentication
     # But still respect test mocking for error cases
@@ -99,7 +104,7 @@ class TestAuthentication < Groove::Authentication
       'access_token' => token.token,
       'refresh_token' => token.refresh_token,
       'expires_at' => token.expires_at,
-      'token_type' => token.token_type,
+      'token_type' => token.params['token_type'] || 'Bearer',
       'scope' => token.params['scope']
     }
 

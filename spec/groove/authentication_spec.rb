@@ -5,10 +5,11 @@ require 'spec_helper'
 RSpec.describe Groove::Authentication do
   let(:config) { TestConfiguration.new }
   let(:auth) { TestAuthentication.new(config) }
-  let(:tokens_path) { File.expand_path('~/.config/groove/tokens.json') }
+  let(:tokens_path) { File.join(Dir.tmpdir, 'groove_test', 'tokens.json') }
 
   before do
-    # Clean up any existing tokens
+    # Clean up test tokens (NOT the user's real tokens!)
+    FileUtils.mkdir_p(File.dirname(tokens_path))
     FileUtils.rm_f(tokens_path)
   end
 
@@ -107,7 +108,7 @@ RSpec.describe Groove::Authentication do
       expect(auth.authenticated?).to be false
     end
 
-    it 'returns false when tokens are expired' do
+    it 'returns false when tokens are expired and refresh fails' do
       token_data = {
         'access_token' => 'test_token',
         'refresh_token' => 'test_refresh',
@@ -119,7 +120,46 @@ RSpec.describe Groove::Authentication do
       FileUtils.mkdir_p(File.dirname(tokens_path))
       File.write(tokens_path, JSON.generate(token_data))
 
+      # Stub the refresh token request to fail
+      stub_request(:post, 'https://accounts.spotify.com/api/token')
+        .with(
+          body: hash_including('grant_type' => 'refresh_token', 'refresh_token' => 'test_refresh')
+        )
+        .to_return(status: 400, body: { error: 'invalid_grant' }.to_json)
+
       expect(auth.authenticated?).to be false
+    end
+
+    it 'returns true when tokens are expired but refresh succeeds' do
+      token_data = {
+        'access_token' => 'old_token',
+        'refresh_token' => 'test_refresh',
+        'expires_at' => Time.now.to_i - 3600,
+        'token_type' => 'Bearer',
+        'scope' => 'playlist-modify-public'
+      }
+
+      FileUtils.mkdir_p(File.dirname(tokens_path))
+      File.write(tokens_path, JSON.generate(token_data))
+
+      # Stub the refresh token request to succeed
+      stub_request(:post, 'https://accounts.spotify.com/api/token')
+        .with(
+          body: hash_including('grant_type' => 'refresh_token', 'refresh_token' => 'test_refresh')
+        )
+        .to_return(
+          status: 200,
+          body: {
+            access_token: 'new_token',
+            token_type: 'Bearer',
+            expires_in: 3600,
+            refresh_token: 'test_refresh',
+            scope: 'playlist-modify-public'
+          }.to_json,
+          headers: { 'Content-Type' => 'application/json' }
+        )
+
+      expect(auth.authenticated?).to be true
     end
 
     it 'returns true when tokens exist and are valid' do

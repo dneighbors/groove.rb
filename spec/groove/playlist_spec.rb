@@ -99,6 +99,24 @@ RSpec.describe Groove::Playlist do
         expect(parser).to receive(:parse_file).with(temp_file.path).and_return(parser)
         expect(parser).to receive(:songs).and_return(songs)
 
+        # Stub Spotify search API calls
+        stub_request(:get, %r{api\.spotify\.com/v1/search})
+          .to_return(
+            status: 200,
+            body: {
+              tracks: {
+                items: [
+                  {
+                    id: 'track1',
+                    name: 'Come Down',
+                    artists: [{ name: 'Anderson .Paak' }]
+                  }
+                ]
+              }
+            }.to_json,
+            headers: { 'Content-Type' => 'application/json' }
+          )
+
         # Invoke the command
         playlist_command.options = { skip_duplicates: true, format: 'auto' }
 
@@ -211,6 +229,24 @@ RSpec.describe Groove::Playlist do
         # 2. .songs - returns the array of parsed songs
         expect(parser).to receive(:parse_file).with(temp_file.path).and_return(parser)
         expect(parser).to receive(:songs).and_return(songs)
+
+        # Stub Spotify search API calls
+        stub_request(:get, %r{api\.spotify\.com/v1/search})
+          .to_return(
+            status: 200,
+            body: {
+              tracks: {
+                items: [
+                  {
+                    id: 'track1',
+                    name: 'Come Down',
+                    artists: [{ name: 'Anderson .Paak' }]
+                  }
+                ]
+              }
+            }.to_json,
+            headers: { 'Content-Type' => 'application/json' }
+          )
 
         # Invoke the command
         playlist_command.options = { name: nil, description: nil, public: false, skip_duplicates: true, format: 'auto' }
