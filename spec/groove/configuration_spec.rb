@@ -7,14 +7,14 @@ RSpec.describe Groove::Configuration do
 
   before do
     # Clean up any existing config
-    File.delete(config_path) if File.exist?(config_path)
+    FileUtils.rm_f(config_path)
 
     # Reset configuration to defaults
-    Groove::Configuration.config.spotify_client_id = ''
-    Groove::Configuration.config.spotify_client_secret = ''
-    Groove::Configuration.config.spotify_redirect_uri = 'http://localhost:8080/callback'
-    Groove::Configuration.config.debug = false
-    Groove::Configuration.config.log_level = 'info'
+    described_class.config.spotify_client_id = ''
+    described_class.config.spotify_client_secret = ''
+    described_class.config.spotify_redirect_uri = 'http://localhost:8080/callback'
+    described_class.config.debug = false
+    described_class.config.log_level = 'info'
   end
 
   describe 'initialization' do
@@ -57,7 +57,7 @@ RSpec.describe Groove::Configuration do
 
     it 'uses defaults when neither file nor environment variables exist' do
       # Ensure no config file exists
-      File.delete(config_path) if File.exist?(config_path)
+      FileUtils.rm_f(config_path)
 
       # Clear environment variables
       ENV.delete('SPOTIFY_CLIENT_ID')
@@ -66,7 +66,7 @@ RSpec.describe Groove::Configuration do
       config = described_class.new
       expect(config.class.config.spotify_client_id).to eq('')
       expect(config.class.config.spotify_client_secret).to eq('')
-      expect(config.class.config.debug).to eq(false)
+      expect(config.class.config.debug).to be(false)
       expect(config.class.config.log_level).to eq('info')
     end
   end

@@ -19,17 +19,3 @@ project_context: "{installed_path}/project-context.md"
 
 # CORE brainstorming workflow to invoke
 core_brainstorming: "{project-root}/bmad/core/workflows/brainstorming/workflow.yaml"
-
-web_bundle:
-  name: "brainstorm-project"
-  description: "Facilitate project brainstorming sessions by orchestrating the CIS brainstorming workflow with project-specific context and guidance."
-  author: "BMad"
-  instructions: "bmad/bmm/workflows/1-analysis/brainstorm-project/instructions.md"
-  template: false
-  use_advanced_elicitation: true
-  web_bundle_files:
-    - "bmad/bmm/workflows/1-analysis/brainstorm-project/instructions.md"
-    - "bmad/bmm/workflows/1-analysis/brainstorm-project/project-context.md"
-    - "bmad/core/workflows/brainstorming/workflow.yaml"
-  existing_workflows:
-    - core_brainstorming: "bmad/core/workflows/brainstorming/workflow.yaml"

@@ -42,9 +42,9 @@ A Ruby gem/script that syncs a text list of songs/artists to a Spotify playlist.
 - **Progress**: Not started
 
 ### **Epic 3: Code Quality & Testing Pipeline**
-- **Status**: In Development
+- **Status**: Complete
 - **Stories**: 6 stories (3.1-3.6)
-- **Progress**: 5 stories completed
+- **Progress**: 6 stories completed
 
 ### **Epic 4: Deployment Pipeline (Future)**
 - **Status**: Future Planning
@@ -77,8 +77,8 @@ A Ruby gem/script that syncs a text list of songs/artists to a Spotify playlist.
 
 - **Story 1.4**: Playlist Creation and Management (`story-1.4.md`)
 - **Story Status:** Ready
-- **Context File:** Not yet generated
-- **Action:** DEV should run `story-context` then `dev-story` workflow to implement this story
+- **Context File:** `docs/stories/story-context-1.4.xml`
+- **Action:** DEV should run `dev-story` workflow to implement this story
 
 ### DONE (Completed Stories)
 
@@ -92,12 +92,14 @@ A Ruby gem/script that syncs a text list of songs/artists to a Spotify playlist.
 | 3.3 | story-3.3.md | 2024-01-15 | 8 |
 | 3.4 | story-3.4.md | 2025-01-15 | 5 |
 | 3.5 | story-3.5.md | 2025-01-15 | 8 |
+| 3.6 | story-3.6.md | 2025-01-15 | 5 |
 
-**Total completed:** 8 stories  
-**Total points completed:** 58 points
+**Total completed:** 9 stories  
+**Total points completed:** 63 points
 
 ## Decision Log
 
+- **2025-10-16**: Story 3.6 stabilization complete. CI and local RSpec/RuboCop now aligned by updating CLI/Parse/Search exit handling and Spotify search specs. Confirmed overcommit + CI run full suite without failures.
 - **2025-10-15**: Completed solution-architecture workflow. Generated solution-architecture.md, cohesion-check-report.md, and 2 tech-spec files. Populated story backlog with 10 stories. Phase 3 complete. Next: SM agent should run create-story to draft first story (1.1).
 - **2025-10-15**: Completed create-story for Story 1.1 (Spotify API Authentication). Story file: story-1.1.md. Status: Draft (needs review via story-ready). Next: Review and approve story.
 - **2025-01-14**: Completed dev-story for Story 1.1 (Spotify API Authentication). All tasks complete, tests passing. Story status: Ready for Review. Next: User reviews and runs story-approved when satisfied with implementation.
@@ -111,8 +113,10 @@ A Ruby gem/script that syncs a text list of songs/artists to a Spotify playlist.
 - **2024-01-15**: Story 3.3 (GitHub Actions CI Pipeline) COMPLETE. GitHub Actions workflow created with multi-Ruby matrix (3.0, 3.1, 3.2), RuboCop integration, RSpec testing, and Brakeman security scanning. Caching optimized, artifact uploads configured, weekly scheduled runs enabled. All acceptance criteria met. Next: Begin Story 3.4 (Brakeman Security Scanning).
 - **2025-01-15**: Story 3.4 (Brakeman Security Scanning) COMPLETE. Brakeman v6.2.2 installed, .brakeman.ignore configuration created, Rake task integration working, pre-commit hook enabled, CI pipeline integration verified. HTML and JSON reports generated successfully. All acceptance criteria met. Next: Begin Story 3.5 (Test Suite Optimization).
 - **2025-01-15**: Story 3.5 (Test Suite Optimization) COMPLETE. Parallel execution implemented with parallel_tests gem, SimpleCov coverage reporting configured, performance improved to <1 second execution time with 9 parallel processes. All acceptance criteria met. Next: Begin Story 3.6 (CI/Local Integration Verification).
+- **2025-01-15**: Story 3.6 (CI/Local Integration Verification) COMPLETE. CI pipeline updated with Ruby 3.0-3.2 matrix, removed continue-on-error flags, enabled RSpec in overcommit, updated RuboCop fail-level to convention. Performance targets met: RuboCop ~1.7s, Brakeman ~0.6s, RSpec ~0.4s. Documentation created with setup instructions. All acceptance criteria met. Epic 3 complete.
 - **2025-10-16**: Completed create-story for Story 1.4 (Playlist Creation and Management). Story file: story-1.4.md. Status: Draft (needs review via story-ready). Next: Review and approve story, or begin development.
 - **2025-10-16**: Story 1.4 (Playlist Creation and Management) marked ready for development by SM agent. Story approved by user. Moved from TODO → IN PROGRESS. Next: Generate context with story-context workflow.
+- **2025-10-16**: Completed story-context for Story 1.4. Context file: docs/stories/story-context-1.4.xml. Next: DEV agent should run dev-story to implement.
 
 ---
 

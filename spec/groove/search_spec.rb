@@ -7,23 +7,43 @@ RSpec.describe Groove::Search do
 
   describe '#song' do
     it 'requires authentication' do
-      expect { subject.song('Artist', 'Song') }.to output(/Not authenticated/).to_stdout
+      expect do
+        subject.song('Artist', 'Song')
+      rescue SystemExit => e
+        expect(e.status).to eq(1)
+        raise
+      end.to raise_error(SystemExit).and output(/Not authenticated/).to_stdout
     end
   end
 
   describe '#file' do
     it 'requires authentication' do
-      expect { subject.file(sample_file) }.to output(/Not authenticated/).to_stdout
+      expect do
+        subject.file(sample_file)
+      rescue SystemExit => e
+        expect(e.status).to eq(1)
+        raise
+      end.to raise_error(SystemExit).and output(/Not authenticated/).to_stdout
     end
 
     it 'handles non-existent file' do
-      expect { subject.file('nonexistent.txt') }.to output(/File not found/).to_stdout
+      expect do
+        subject.file('nonexistent.txt')
+      rescue SystemExit => e
+        expect(e.status).to eq(1)
+        raise
+      end.to raise_error(SystemExit).and output(/File not found/).to_stdout
     end
   end
 
   describe '#stats' do
     it 'requires authentication' do
-      expect { subject.stats }.to output(/Not authenticated/).to_stdout
+      expect do
+        subject.stats
+      rescue SystemExit => e
+        expect(e.status).to eq(1)
+        raise
+      end.to raise_error(SystemExit).and output(/Not authenticated/).to_stdout
     end
   end
 end

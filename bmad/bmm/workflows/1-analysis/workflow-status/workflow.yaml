@@ -39,5 +39,3 @@ execution_hints:
   interactive: true # User interaction required for decisions
   autonomous: false # Requires user input
   iterative: false # Single-pass status check and suggestion
-
-web_bundle: false

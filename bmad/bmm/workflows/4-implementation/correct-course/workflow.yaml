@@ -33,5 +33,3 @@ halt_conditions:
 execution_modes:
   - incremental: "Recommended - Refine each edit with user collaboration"
   - batch: "Present all changes at once for review"
-
-web_bundle: false

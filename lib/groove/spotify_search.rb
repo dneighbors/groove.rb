@@ -129,7 +129,7 @@ module Groove
       # Rate limiting
       current_time = Time.now.to_f
       sleep_time = RATE_LIMIT_DELAY - (current_time - @last_request_time)
-      sleep(sleep_time) if sleep_time > 0
+      sleep(sleep_time) if sleep_time.positive?
       @last_request_time = current_time
 
       connection = Faraday.new(url: SEARCH_ENDPOINT) do |conn|

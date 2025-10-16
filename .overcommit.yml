@@ -5,7 +5,7 @@ PreCommit:
   RuboCop:
     enabled: true
     description: 'Run RuboCop on staged files'
-    command: ['bundle', 'exec', 'rubocop', '--fail-level', 'error']
+    command: ['bundle', 'exec', 'rubocop']
     include: '**/*.rb'
     exclude: 'vendor/**/*'
     quiet: true

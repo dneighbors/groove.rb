@@ -113,7 +113,7 @@ module Groove
     end
 
     def detect_format(file_path, content)
-      extension = File.extname(file_path).downcase[1..-1]
+      extension = File.extname(file_path).downcase[1..]
 
       # Check file extension first
       return extension if SUPPORTED_FORMATS.include?(extension)

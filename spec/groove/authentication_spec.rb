@@ -9,7 +9,7 @@ RSpec.describe Groove::Authentication do
 
   before do
     # Clean up any existing tokens
-    File.delete(tokens_path) if File.exist?(tokens_path)
+    FileUtils.rm_f(tokens_path)
   end
 
   describe '#login' do
@@ -18,7 +18,7 @@ RSpec.describe Groove::Authentication do
       config.spotify_client_secret = ''
 
       # Mock gets to avoid hanging on input
-      allow(STDIN).to receive(:gets).and_return('test_code')
+      allow($stdin).to receive(:gets).and_return('test_code')
 
       # Mock the OAuth2 client to raise an error
       allow(OAuth2::Client).to receive(:new).and_raise(OAuth2::Error.new('Invalid client'))
@@ -32,20 +32,18 @@ RSpec.describe Groove::Authentication do
 
       allow(OAuth2::Client).to receive(:new).and_return(client)
       allow(client).to receive(:auth_code).and_return(auth_code)
-      allow(auth_code).to receive(:authorize_url).and_return('https://accounts.spotify.com/authorize?client_id=test&redirect_uri=http://localhost:8080/callback&response_type=code&scope=playlist-modify-public%20playlist-modify-private%20user-read-private')
 
       # Mock the user input
-      allow(STDIN).to receive(:gets).and_return('test_code')
+      allow($stdin).to receive(:gets).and_return('test_code')
 
       # Mock successful token exchange
       token = double('OAuth2::AccessToken')
-      allow(token).to receive(:token).and_return('access_token')
-      allow(token).to receive(:refresh_token).and_return('refresh_token')
-      allow(token).to receive(:expires_at).and_return(Time.now.to_i + 3600)
-      allow(token).to receive(:token_type).and_return('Bearer')
-      allow(token).to receive(:params).and_return({ 'scope' => 'playlist-modify-public playlist-modify-private user-read-private' })
+      allow(token).to receive_messages(token: 'access_token', refresh_token: 'refresh_token',
+                                       expires_at: Time.now.to_i + 3600, token_type: 'Bearer', params: { 'scope' => 'playlist-modify-public playlist-modify-private user-read-private' })
 
-      allow(auth_code).to receive(:get_token).and_return(token)
+      allow(auth_code).to receive_messages(
+        authorize_url: 'https://accounts.spotify.com/authorize?client_id=test&redirect_uri=http://localhost:8080/callback&response_type=code&scope=playlist-modify-public%20playlist-modify-private%20user-read-private', get_token: token
+      )
 
       expect { auth.login }.not_to raise_error
     end
@@ -165,11 +163,8 @@ RSpec.describe Groove::Authentication do
     it 'encrypts and decrypts tokens correctly' do
       # Test encryption/decryption through save/load cycle
       token = double('OAuth2::AccessToken')
-      allow(token).to receive(:token).and_return('access_token')
-      allow(token).to receive(:refresh_token).and_return('refresh_token')
-      allow(token).to receive(:expires_at).and_return(Time.now.to_i + 3600)
-      allow(token).to receive(:token_type).and_return('Bearer')
-      allow(token).to receive(:params).and_return({ 'scope' => 'playlist-modify-public' })
+      allow(token).to receive_messages(token: 'access_token', refresh_token: 'refresh_token',
+                                       expires_at: Time.now.to_i + 3600, token_type: 'Bearer', params: { 'scope' => 'playlist-modify-public' })
 
       auth.send(:save_tokens, token)
       loaded_tokens = auth.send(:load_tokens)
