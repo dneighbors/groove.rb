@@ -179,8 +179,12 @@ module Groove
         line = line.strip
         next if line.empty? || line.start_with?('#')
 
-        # Try different separators
-        if line.include?(' - ')
+        # Try different separators (supporting various dash types)
+        if line.include?(' – ') # en dash (U+2013)
+          parts = line.split(' – ', 2)
+        elsif line.include?(' — ') # em dash (U+2014)
+          parts = line.split(' — ', 2)
+        elsif line.include?(' - ') # regular hyphen
           parts = line.split(' - ', 2)
         elsif line.include?(' | ')
           parts = line.split(' | ', 2)

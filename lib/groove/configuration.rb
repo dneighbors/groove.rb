@@ -13,6 +13,8 @@ module Groove
     setting :spotify_redirect_uri, default: 'http://127.0.0.1:8080/callback'
     setting :debug, default: false
     setting :log_level, default: 'info'
+    setting :playlist_public, default: false
+    setting :playlist_duplicate_handling, default: 'skip'
 
     def initialize
       load_config
@@ -31,6 +33,8 @@ module Groove
         self.class.config.spotify_redirect_uri = config_data.dig('spotify', 'redirect_uri') || 'http://localhost:8080/callback'
         self.class.config.debug = config_data.dig('app', 'debug') || false
         self.class.config.log_level = config_data.dig('logging', 'level') || 'info'
+        self.class.config.playlist_public = config_data.dig('defaults', 'playlist_visibility') == 'public'
+        self.class.config.playlist_duplicate_handling = config_data.dig('defaults', 'duplicate_handling') || 'skip'
       else
         # Use environment variables as fallback
         self.class.config.spotify_client_id = ENV['SPOTIFY_CLIENT_ID'] || ''

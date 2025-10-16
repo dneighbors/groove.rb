@@ -6,6 +6,12 @@ spotify:
   client_id: "your_spotify_client_id_here"
   client_secret: "your_spotify_client_secret_here"
   redirect_uri: "http://127.0.0.1:8080/callback"
+
+# Default Settings
+defaults:
+  playlist_visibility: "private"  # "public" or "private"
+  duplicate_handling: "skip"      # "skip" or "add"
+  output_format: "text"
   
 # Application Settings
 app:

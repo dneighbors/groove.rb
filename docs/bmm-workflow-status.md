@@ -7,8 +7,8 @@
 ## Current State
 
 **Current Phase:** 4-Implementation  
-**Current Workflow:** story-context (Story 1.4) - Complete  
-**Overall Progress:** 62%  
+**Current Workflow:** Course Correction - Story 1.7 Added  
+**Overall Progress:** 64%  
 **Project Level:** 2 (Small complete system - multiple epics)  
 **Project Type:** cli (Ruby gem/script)  
 **Greenfield/Brownfield:** Greenfield  
@@ -33,8 +33,8 @@ A Ruby gem/script that syncs a text list of songs/artists to a Spotify playlist.
 
 ### **Epic 1: Core Playlist Sync (MVP)**
 - **Status**: In Development
-- **Stories**: 6 stories (1.1-1.6)
-- **Progress**: 3 stories completed
+- **Stories**: 7 stories (1.1-1.7)
+- **Progress**: 4 stories completed (1.1-1.4)
 
 ### **Epic 2: AI Music Discovery (Future)**
 - **Status**: Future Planning
@@ -58,12 +58,13 @@ A Ruby gem/script that syncs a text list of songs/artists to a Spotify playlist.
 | Epic | Story | ID  | Title | File |
 | ---- | ----- | --- | ----- | ---- |
 | 1 | 6 | 1.6 | Command-Line Interface | story-1.6.md |
+| 1 | 7 | 1.7 | Playlist Discovery and Listing | story-1.7.md |
 | 2 | 1 | 2.1 | AI Conversation Interface | story-2.1.md |
 | 2 | 2 | 2.2 | Music Discovery AI | story-2.2.md |
 | 2 | 3 | 2.3 | Smart Playlist Generation | story-2.3.md |
 | 2 | 4 | 2.4 | AI-Powered Recommendations | story-2.4.md |
 
-**Total in backlog:** 5 stories
+**Total in backlog:** 6 stories
 
 ### TODO (Needs Drafting)
 
@@ -75,10 +76,7 @@ A Ruby gem/script that syncs a text list of songs/artists to a Spotify playlist.
 
 ### IN PROGRESS (Approved for Development)
 
-- **Story 1.4**: Playlist Creation and Management (`story-1.4.md`)
-- **Story Status:** Ready
-- **Context File:** `docs/stories/story-context-1.4.xml`
-- **Action:** DEV should run `dev-story` workflow to implement this story
+(No stories currently in progress)
 
 ### DONE (Completed Stories)
 
@@ -87,6 +85,7 @@ A Ruby gem/script that syncs a text list of songs/artists to a Spotify playlist.
 | 1.1 | story-1.1.md | 2025-01-14 | 5 |
 | 1.2 | story-1.2.md | 2025-01-14 | 3 |
 | 1.3 | story-1.3.md | 2025-01-14 | 8 |
+| 1.4 | story-1.4.md | 2025-10-16 | 8 |
 | 3.1 | story-3.1.md | 2024-01-15 | 8 |
 | 3.2 | story-3.2.md | 2024-01-15 | 5 |
 | 3.3 | story-3.3.md | 2024-01-15 | 8 |
@@ -94,8 +93,8 @@ A Ruby gem/script that syncs a text list of songs/artists to a Spotify playlist.
 | 3.5 | story-3.5.md | 2025-01-15 | 8 |
 | 3.6 | story-3.6.md | 2025-01-15 | 5 |
 
-**Total completed:** 9 stories  
-**Total points completed:** 63 points
+**Total completed:** 10 stories  
+**Total points completed:** 71 points
 
 ## Decision Log
 
@@ -117,6 +116,8 @@ A Ruby gem/script that syncs a text list of songs/artists to a Spotify playlist.
 - **2025-10-16**: Completed create-story for Story 1.4 (Playlist Creation and Management). Story file: story-1.4.md. Status: Draft (needs review via story-ready). Next: Review and approve story, or begin development.
 - **2025-10-16**: Story 1.4 (Playlist Creation and Management) marked ready for development by SM agent. Story approved by user. Moved from TODO → IN PROGRESS. Next: Generate context with story-context workflow.
 - **2025-10-16**: Completed story-context for Story 1.4. Context file: docs/stories/story-context-1.4.xml. Next: DEV agent should run dev-story to implement.
+- **2025-10-16**: Story 1.4 (Playlist Creation and Management) COMPLETE. Implemented PlaylistManager component with create/add/sync functionality, batch operations (100-track chunking), duplicate handling, CLI integration, configuration support. All 114 tests passing (23 new tests). 8 story points. Moved to DONE.
+- **2025-10-16**: Course correction by PM: User identified usability gap - no way to list existing playlists to get IDs for `add` command. Added Story 1.7 (Playlist Discovery and Listing) to Epic 1 backlog. This will implement `groove playlist list` command to display user's playlists with IDs. Epic 1 now has 7 stories (1.1-1.7).
 
 ---
 
