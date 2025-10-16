@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'thor'
-require 'groove'
 
 module Groove
   class Search < Thor

@@ -24,7 +24,7 @@ RSpec.describe Groove::SpotifySearch do
         stub_request(:get, Groove::SpotifySearch::SEARCH_ENDPOINT.to_s)
           .with(
             query: {
-              q: 'artist:The%20Beatles track:Hey%20Jude',
+              q: 'artist:The Beatles track:Hey Jude',
               type: 'track',
               limit: 10
             },
@@ -89,7 +89,7 @@ RSpec.describe Groove::SpotifySearch do
         stub_request(:get, Groove::SpotifySearch::SEARCH_ENDPOINT.to_s)
           .with(
             query: {
-              q: 'artist:Unknown%20Artist track:Unknown%20Song',
+              q: 'artist:Unknown Artist track:Unknown Song',
               type: 'track',
               limit: 10
             },
@@ -121,7 +121,7 @@ RSpec.describe Groove::SpotifySearch do
         stub_request(:get, Groove::SpotifySearch::SEARCH_ENDPOINT.to_s)
           .with(
             query: {
-              q: 'artist:The%20Beatles track:Hey%20Jude',
+              q: 'artist:The Beatles track:Hey Jude',
               type: 'track',
               limit: 10
             },
@@ -143,7 +143,7 @@ RSpec.describe Groove::SpotifySearch do
         stub_request(:get, Groove::SpotifySearch::SEARCH_ENDPOINT.to_s)
           .with(
             query: {
-              q: 'artist:The%20Beatles track:Hey%20Jude',
+              q: 'artist:The Beatles track:Hey Jude',
               type: 'track',
               limit: 10
             },
@@ -173,7 +173,7 @@ RSpec.describe Groove::SpotifySearch do
       stub_request(:get, Groove::SpotifySearch::SEARCH_ENDPOINT.to_s)
         .with(
           query: {
-            q: 'artist:The%20Beatles track:Hey%20Jude',
+            q: 'artist:The Beatles track:Hey Jude',
             type: 'track',
             limit: 10
           },
@@ -203,7 +203,7 @@ RSpec.describe Groove::SpotifySearch do
       stub_request(:get, Groove::SpotifySearch::SEARCH_ENDPOINT.to_s)
         .with(
           query: {
-            q: 'artist:Queen track:Bohemian%20Rhapsody',
+            q: 'artist:Queen track:Bohemian Rhapsody',
             type: 'track',
             limit: 10
           },
@@ -243,12 +243,12 @@ RSpec.describe Groove::SpotifySearch do
     it 'cleans search terms correctly' do
       search.send(:clean_search_term, 'Artist feat. Other Artist')
       # This tests the private method indirectly through search_song
-      expect(search.send(:clean_search_term, 'Artist feat. Other Artist')).to eq('Artist%20Other%20Artist')
+      expect(search.send(:clean_search_term, 'Artist feat. Other Artist')).to eq('Artist Other Artist')
     end
 
     it 'builds search query correctly' do
       query = search.send(:build_search_query, 'The Beatles', 'Hey Jude')
-      expect(query).to eq('artist:The%20Beatles track:Hey%20Jude')
+      expect(query).to eq('artist:The Beatles track:Hey Jude')
     end
   end
 
