@@ -11,9 +11,6 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        ruby-version: ['3.4']
 
     steps:
     - uses: actions/checkout@v4
@@ -21,7 +18,7 @@ jobs:
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1
       with:
-        ruby-version: ${{ matrix.ruby-version }}
+        ruby-version: '3.4'
         bundler-cache: true
         cache-version: 0
 
@@ -29,27 +26,23 @@ jobs:
       run: bundle install
 
     - name: Run RuboCop
-      run: bundle exec rubocop --fail-level error
-      continue-on-error: true
+      run: bundle exec rubocop
 
     - name: Run RSpec
       run: bundle exec rspec
-      continue-on-error: true
 
     - name: Run Brakeman (Security Scan)
       run: bundle exec brakeman --force --quiet --format json --output brakeman-report.json
-      continue-on-error: true
 
     - name: Upload Brakeman report
       uses: actions/upload-artifact@v4
       if: always()
       with:
-        name: brakeman-report-${{ matrix.ruby-version }}
+        name: brakeman-report
         path: brakeman-report.json
 
     - name: Upload coverage
       uses: codecov/codecov-action@v3
-      if: matrix.ruby-version == '3.2'
       with:
         file: ./coverage/lcov.info
         fail_ci_if_error: false

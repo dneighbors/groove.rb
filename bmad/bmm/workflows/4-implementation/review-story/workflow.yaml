@@ -84,5 +84,3 @@ execution_hints:
   interactive: false # Minimize prompts; intended to run deterministically
   autonomous: true # Proceed without user input unless blocked
   iterative: true
-
-web_bundle: false

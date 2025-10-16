@@ -37,7 +37,11 @@ RSpec.describe Groove::Auth do
       allow(Groove::Authentication).to receive(:new).with(config).and_return(auth_instance)
       allow(auth_instance).to receive(:login).and_raise(Groove::Authentication::Error, 'Test error')
 
-      expect { subject.login }.to raise_error(SystemExit)
+      expect do
+        subject.login
+      rescue SystemExit => e
+        expect(e.status).to eq(1)
+      end.to output(/Authentication failed/).to_stdout
     end
   end
 

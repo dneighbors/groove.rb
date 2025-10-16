@@ -22,7 +22,12 @@ RSpec.describe Groove::Parse do
     end
 
     it 'handles non-existent file' do
-      expect { subject.file('nonexistent.txt') }.to output(/Failed to parse nonexistent.txt/).to_stdout
+      expect do
+        subject.file('nonexistent.txt')
+      rescue SystemExit => e
+        expect(e.status).to eq(1)
+        raise
+      end.to raise_error(SystemExit).and output(/Failed to parse nonexistent.txt/).to_stdout
     end
   end
 
@@ -33,12 +38,22 @@ RSpec.describe Groove::Parse do
     end
 
     it 'handles empty file list' do
-      expect { subject.files }.to output(/Please provide at least one file path/).to_stdout
+      expect do
+        subject.files
+      rescue SystemExit => e
+        expect(e.status).to eq(1)
+        raise
+      end.to raise_error(SystemExit).and output(/Please provide at least one file path/).to_stdout
     end
 
     it 'handles mixed valid and invalid files' do
       files = [csv_file, 'nonexistent.txt']
-      expect { subject.files(*files) }.to output(/Failed to parse files/).to_stdout
+      expect do
+        subject.files(*files)
+      rescue SystemExit => e
+        expect(e.status).to eq(1)
+        raise
+      end.to raise_error(SystemExit).and output(/Failed to parse files/).to_stdout
     end
   end
 
@@ -56,7 +71,12 @@ RSpec.describe Groove::Parse do
     end
 
     it 'handles non-existent file' do
-      expect { subject.validate('nonexistent.txt') }.to output(/File not found: nonexistent.txt/).to_stdout
+      expect do
+        subject.validate('nonexistent.txt')
+      rescue SystemExit => e
+        expect(e.status).to eq(1)
+        raise
+      end.to raise_error(SystemExit).and output(/File not found: nonexistent.txt/).to_stdout
     end
   end
 end

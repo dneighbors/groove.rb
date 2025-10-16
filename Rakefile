@@ -13,25 +13,25 @@ task :coverage do
   Rake::Task[:spec].invoke
 end
 
-desc "Run RSpec tests in parallel"
+desc 'Run RSpec tests in parallel'
 task :spec_parallel do
-  sh "bundle exec parallel_rspec spec/"
+  sh 'bundle exec parallel_rspec spec/'
 end
 
-desc "Run RSpec tests in parallel with coverage"
+desc 'Run RSpec tests in parallel with coverage'
 task :coverage_parallel do
   ENV['COVERAGE'] = 'true'
-  sh "bundle exec parallel_rspec spec/"
+  sh 'bundle exec parallel_rspec spec/'
 end
 
 RuboCop::RakeTask.new do |task|
   task.options = ['--parallel']
 end
 
-desc "Run Brakeman security scan"
+desc 'Run Brakeman security scan'
 task :brakeman do
-  sh "bundle exec brakeman --force --quiet --format json --output brakeman-report.json"
-  sh "bundle exec brakeman --force --quiet --format html --output brakeman-report.html"
+  sh 'bundle exec brakeman --force --quiet --format json --output brakeman-report.json'
+  sh 'bundle exec brakeman --force --quiet --format html --output brakeman-report.html'
 end
 
 task default: %i[rubocop spec]
