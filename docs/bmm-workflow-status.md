@@ -2,7 +2,7 @@
 
 **Project:** groove.rb - Spotify Playlist Sync Tool  
 **Created:** 2025-10-15  
-**Last Updated:** 2025-01-15  
+**Last Updated:** 2025-10-16  
 
 ## Current State
 
@@ -99,6 +99,7 @@ A Ruby gem/script that syncs a text list of songs/artists to a Spotify playlist.
 
 ## Decision Log
 
+- **2025-10-16**: Story 3.6 stabilization complete. CI and local RSpec/RuboCop now aligned by updating CLI/Parse/Search exit handling and Spotify search specs. Confirmed overcommit + CI run full suite without failures.
 - **2025-10-15**: Completed solution-architecture workflow. Generated solution-architecture.md, cohesion-check-report.md, and 2 tech-spec files. Populated story backlog with 10 stories. Phase 3 complete. Next: SM agent should run create-story to draft first story (1.1).
 - **2025-10-15**: Completed create-story for Story 1.1 (Spotify API Authentication). Story file: story-1.1.md. Status: Draft (needs review via story-ready). Next: Review and approve story.
 - **2025-01-14**: Completed dev-story for Story 1.1 (Spotify API Authentication). All tasks complete, tests passing. Story status: Ready for Review. Next: User reviews and runs story-approved when satisfied with implementation.
