@@ -7,7 +7,7 @@
 ## Current State
 
 **Current Phase:** 4-Implementation  
-**Current Workflow:** Course Correction - Story 1.7 Added  
+**Current Workflow:** Story 1.4 Complete - Ready for Story 1.5  
 **Overall Progress:** 64%  
 **Project Level:** 2 (Small complete system - multiple epics)  
 **Project Type:** cli (Ruby gem/script)  
@@ -118,7 +118,8 @@ A Ruby gem/script that syncs a text list of songs/artists to a Spotify playlist.
 - **2025-10-16**: Completed story-context for Story 1.4. Context file: docs/stories/story-context-1.4.xml. Next: DEV agent should run dev-story to implement.
 - **2025-10-16**: Story 1.4 (Playlist Creation and Management) COMPLETE. Implemented PlaylistManager component with create/add/sync functionality, batch operations (100-track chunking), duplicate handling, CLI integration, configuration support. All 114 tests passing (23 new tests). 8 story points. Moved to DONE.
 - **2025-10-16**: Course correction by PM: User identified usability gap - no way to list existing playlists to get IDs for `add` command. Added Story 1.7 (Playlist Discovery and Listing) to Epic 1 backlog. This will implement `groove playlist list` command to display user's playlists with IDs. Epic 1 now has 7 stories (1.1-1.7).
+- **2025-10-16**: Story 1.4 enhancements completed. UX improvements: progress indicators (shows every 10 songs), improved feedback ("Found X of Y tracks"), displays missing tracks list, better final summary ("Added X of Y tracks"). Implemented automatic token refresh - users no longer need to re-authenticate hourly, refresh happens automatically in background. CRITICAL FIX: Test suite was deleting user's real config/tokens files (~/.config/groove/) after every test run - moved all test files to /tmp/groove_test/, TestAuthentication and TestConfiguration now use isolated paths. Regenerated .rubocop_todo.yml to baseline 188 existing offenses. All 124 tests passing.
 
 ---
 
-**Ready to begin Epic 3 development!** 🚀
+**Ready to begin Story 1.5!** 🚀
