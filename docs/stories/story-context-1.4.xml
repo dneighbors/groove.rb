@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<story-context id="bmad/bmm/workflows/4-implementation/story-context" v="1.0">
+  <metadata>
+    <epicId>1</epicId>
+    <storyId>1.4</storyId>
+    <title>Playlist Creation and Management</title>
+    <status>Ready</status>
+    <generatedAt>2025-10-16</generatedAt>
+    <generator>BMAD Story Context Workflow - Bob (Scrum Master)</generator>
+    <sourceStoryPath>docs/stories/story-1.4.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>user</asA>
+    <iWant>to create new Spotify playlists or update existing ones</iWant>
+    <soThat>I can organize my music efficiently and sync my song lists to Spotify</soThat>
+    <tasks>
+      <task id="1" ac="1,2,3,6,8">Spotify Playlist API Integration</task>
+      <task id="2" ac="1,2,3,4,5">PlaylistManager Component</task>
+      <task id="3" ac="4">Duplicate Handling System</task>
+      <task id="4" ac="6">Batch Operations Optimization</task>
+      <task id="5" ac="1-8">CLI Integration</task>
+      <task id="6" ac="4,5">Configuration Integration</task>
+      <task id="7" ac="1-8">Testing</task>
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    <criterion id="1">Create New Playlist: Create a new Spotify playlist with a custom name and description</criterion>
+    <criterion id="2">Add Songs to Playlist: Add songs to a newly created or existing playlist using Spotify track IDs</criterion>
+    <criterion id="3">Update Existing Playlist: Add songs to an existing playlist by playlist ID</criterion>
+    <criterion id="4">Duplicate Handling: Handle duplicate songs with configurable behavior (skip or allow duplicates)</criterion>
+    <criterion id="5">Playlist Settings: Support public/private playlist visibility settings</criterion>
+    <criterion id="6">Batch Operations: Efficiently add multiple songs in batch requests (Spotify limit: 100 tracks per request)</criterion>
+    <criterion id="7">User Feedback: Provide clear feedback on playlist creation and song additions</criterion>
+    <criterion id="8">Error Handling: Handle API errors gracefully with clear error messages</criterion>
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/tech-specs/tech-spec-epic-1.md</path>
+        <title>Epic 1: Core Playlist Sync - Technical Specification</title>
+        <section>Story 1.4: Playlist Creation and Management</section>
+        <snippet>Create new playlists with custom names, add songs to existing playlists, handle duplicate songs (skip or add option), support public/private playlist settings, add playlist descriptions. Components: Groove::PlaylistManager. Dependencies: Spotify Web API, Groove::SpotifyClient.</snippet>
+      </doc>
+      <doc>
+        <path>docs/epics/epic-1-core-playlist-sync.md</path>
+        <title>Epic 1: Core Playlist Sync (MVP)</title>
+        <section>Stories</section>
+        <snippet>Story 1.4: Playlist Creation and Management - Enable users to sync text files of songs/artists to Spotify playlists. This is the core MVP functionality that provides the foundation for all future features.</snippet>
+      </doc>
+      <doc>
+        <path>docs/PROJECT-OVERVIEW.md</path>
+        <title>groove.rb Project Overview</title>
+        <section>Project Description</section>
+        <snippet>A Ruby gem that syncs text lists of songs/artists to Spotify playlists, with future AI-powered music discovery capabilities. Core Features: Sync text files (CSV, TXT, JSON) to Spotify playlists, OAuth2 authentication with Spotify, Command-line interface.</snippet>
+      </doc>
+      <doc>
+        <path>docs/stories/story-1.3.md</path>
+        <title>Story 1.3: Spotify Song Search and Matching</title>
+        <section>Completion Notes</section>
+        <snippet>Search functionality returns Spotify track URIs and IDs. Confidence scoring system helps identify which tracks to add. Rate limiting is already implemented in search module. Consider reusing HTTP client configuration for consistency.</snippet>
+      </doc>
+    </docs>
+
+    <code>
+      <artifact>
+        <path>lib/groove/authentication.rb</path>
+        <kind>module</kind>
+        <symbol>Groove::Authentication</symbol>
+        <lines>1-190</lines>
+        <reason>Provides OAuth2 access tokens required for Spotify API calls. Story 1.4 will need to use authentication.access_token to make playlist API calls. Contains scope: 'playlist-modify-public playlist-modify-private'.</reason>
+      </artifact>
+      <artifact>
+        <path>lib/groove/spotify_search.rb</path>
+        <kind>module</kind>
+        <symbol>Groove::SpotifySearch</symbol>
+        <lines>1-300</lines>
+        <reason>Existing Spotify API integration pattern. Shows how to make authenticated Faraday requests, handle rate limiting (RATE_LIMIT_DELAY), and structure error handling. Returns track IDs that will be used for playlist operations.</reason>
+      </artifact>
+      <artifact>
+        <path>lib/groove.rb</path>
+        <kind>main</kind>
+        <symbol>Groove</symbol>
+        <lines>1-19</lines>
+        <reason>Module requires file. New playlist_manager.rb will need to be required here after Groove::SpotifySearch.</reason>
+      </artifact>
+      <artifact>
+        <path>lib/groove/configuration.rb</path>
+        <kind>module</kind>
+        <symbol>Groove::Configuration</symbol>
+        <lines>all</lines>
+        <reason>Configuration system using dry-configurable. Will need to add playlist settings: default visibility (public/private) and duplicate handling behavior (skip/add).</reason>
+      </artifact>
+      <artifact>
+        <path>lib/groove/cli.rb</path>
+        <kind>module</kind>
+        <symbol>Groove::CLI</symbol>
+        <lines>all</lines>
+        <reason>Thor-based CLI. Will need to add new commands for playlist creation and management that integrate with PlaylistManager class.</reason>
+      </artifact>
+    </code>
+
+    <dependencies>
+      <ruby>
+        <version>&gt;= 3.4.0</version>
+        <framework>Ruby gem</framework>
+      </ruby>
+      <runtime>
+        <package name="faraday" version="~&gt; 2.9">HTTP client for Spotify API requests</package>
+        <package name="oauth2" version="~&gt; 2.0">OAuth2 authentication</package>
+        <package name="thor" version="~&gt; 1.3">CLI framework</package>
+        <package name="dry-configurable" version="~&gt; 1.0">Configuration management</package>
+        <package name="csv" version="~&gt; 3.2">CSV parsing support</package>
+      </runtime>
+      <development>
+        <package name="rspec" version="~&gt; 3.12">Testing framework</package>
+        <package name="webmock" version="~&gt; 3.19">HTTP request mocking</package>
+        <package name="simplecov" version="~&gt; 0.22">Code coverage</package>
+        <package name="rubocop" version="~&gt; 1.57">Linting</package>
+        <package name="parallel_tests" version="~&gt; 5.4">Parallel test execution</package>
+      </development>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint type="api">Spotify API maximum 100 tracks per batch add request (POST /v1/playlists/{playlist_id}/tracks)</constraint>
+    <constraint type="api">Rate limit: 100 requests per minute (shared with search functionality)</constraint>
+    <constraint type="auth">Requires OAuth2 scopes: playlist-modify-public and playlist-modify-private (already configured in Authentication class)</constraint>
+    <constraint type="architecture">Follow existing pattern from SpotifySearch: use Faraday for HTTP, return self for method chaining, maintain @errors array for error collection</constraint>
+    <constraint type="storage">Token storage handled by Authentication class at ~/.config/groove/tokens.json</constraint>
+    <constraint type="testing">Use WebMock to mock all Spotify API requests in tests. Target 90%+ code coverage. Follow existing test patterns from spotify_search_spec.rb</constraint>
+    <constraint type="style">Follow RuboCop style guide (configured in .rubocop.yml). Use frozen_string_literal pragma.</constraint>
+  </constraints>
+
+  <interfaces>
+    <interface>
+      <name>Spotify Create Playlist API</name>
+      <kind>REST endpoint</kind>
+      <signature>POST https://api.spotify.com/v1/users/{user_id}/playlists</signature>
+      <request>
+        Headers: Authorization: Bearer {access_token}
+        Body: { "name": "playlist_name", "description": "optional", "public": true|false }
+      </request>
+      <response>
+        Success 201: { "id": "playlist_id", "name": "playlist_name", "external_urls": {...}, ... }
+        Error 401: Authentication required
+        Error 403: Forbidden
+      </response>
+      <docs>https://developer.spotify.com/documentation/web-api/reference/create-playlist</docs>
+    </interface>
+    <interface>
+      <name>Spotify Add Items to Playlist API</name>
+      <kind>REST endpoint</kind>
+      <signature>POST https://api.spotify.com/v1/playlists/{playlist_id}/tracks</signature>
+      <request>
+        Headers: Authorization: Bearer {access_token}
+        Body: { "uris": ["spotify:track:ID1", "spotify:track:ID2", ...], "position": 0 }
+        Note: Maximum 100 track URIs per request
+      </request>
+      <response>
+        Success 201: { "snapshot_id": "..." }
+        Error 401: Authentication required
+        Error 404: Playlist not found
+      </response>
+      <docs>https://developer.spotify.com/documentation/web-api/reference/add-tracks-to-playlist</docs>
+    </interface>
+    <interface>
+      <name>Spotify Get Playlist Items API</name>
+      <kind>REST endpoint</kind>
+      <signature>GET https://api.spotify.com/v1/playlists/{playlist_id}/tracks</signature>
+      <request>
+        Headers: Authorization: Bearer {access_token}
+        Query params: limit=100, offset=0 (for pagination)
+      </request>
+      <response>
+        Success 200: { "items": [{"track": {"id": "...", "uri": "...", ...}}, ...], "total": N, ... }
+      </response>
+      <docs>https://developer.spotify.com/documentation/web-api/reference/get-playlists-tracks</docs>
+    </interface>
+    <interface>
+      <name>Groove::PlaylistManager (New Component)</name>
+      <kind>Ruby class interface</kind>
+      <signature>
+        class PlaylistManager
+          def initialize(access_token)
+          def create_playlist(name:, description: nil, public: false)
+          def add_tracks(playlist_id:, track_ids:, skip_duplicates: true)
+          def get_playlist_tracks(playlist_id:)
+          def results
+        end
+      </signature>
+      <usage>
+        manager = Groove::PlaylistManager.new(auth.access_token)
+        playlist = manager.create_playlist(name: "My Playlist", public: false)
+        manager.add_tracks(playlist_id: playlist[:id], track_ids: ["id1", "id2"])
+        results = manager.results
+      </usage>
+    </interface>
+  </interfaces>
+
+  <tests>
+    <standards>
+      Use RSpec 3.12 with WebMock for HTTP mocking. All Spotify API requests must be stubbed using WebMock.stub_request. Follow existing test patterns from spec/groove/spotify_search_spec.rb and spec/groove/authentication_spec.rb. Use SimpleCov for coverage tracking (target 90%+). Tests run in parallel using parallel_tests gem. Use descriptive context blocks and shared examples where appropriate.
+    </standards>
+    <locations>
+      spec/groove/ - Main test directory
+      spec/groove/playlist_manager_spec.rb - New test file for PlaylistManager
+      spec/spec_helper.rb - RSpec configuration with WebMock and SimpleCov setup
+    </locations>
+    <ideas>
+      <idea ac="1">Test create_playlist method with valid parameters, verify API request format, test public/private settings, test with/without description</idea>
+      <idea ac="2,3">Test add_tracks method with various track ID arrays, verify batch chunking for 100+ tracks, test empty track lists</idea>
+      <idea ac="4">Test duplicate detection by mocking get_playlist_tracks, verify skip behavior, verify allow behavior, test edge cases</idea>
+      <idea ac="5">Test playlist visibility settings (public vs private), verify correct API parameter format</idea>
+      <idea ac="6">Test batch operations: 50 tracks, 100 tracks (exactly), 150 tracks (requires chunking), verify correct number of API calls</idea>
+      <idea ac="7,8">Test error scenarios: 401 auth errors, 404 playlist not found, 429 rate limiting, 5xx server errors, network failures</idea>
+      <idea>Integration test: Create playlist, add tracks, verify results structure matches expected format</idea>
+      <idea>Test rate limiting behavior matches SpotifySearch pattern (RATE_LIMIT_DELAY = 0.1)</idea>
+    </ideas>
+  </tests>
+</story-context>
+
