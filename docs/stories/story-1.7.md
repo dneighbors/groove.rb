@@ -2,8 +2,9 @@
 
 **Epic:** Epic 1 - Core Playlist Sync (MVP)  
 **Story ID:** 1.7  
-**Status:** Ready  
-**Story Points:** 5
+**Status:** Complete  
+**Story Points:** 5  
+**Completed:** 2025-10-17
 
 ## Story
 
