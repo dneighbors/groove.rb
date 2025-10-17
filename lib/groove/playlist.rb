@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'thor'
+require 'json'
 
 module Groove
   class Playlist < Thor
@@ -223,6 +224,83 @@ module Groove
         manager.errors.each { |error| say "   Error: #{error}", :red }
         exit 1
       end
+    end
+
+    desc 'list', 'List your Spotify playlists with IDs'
+    option :format, type: :string, default: 'table', desc: 'Output format (table or json)'
+    option :filter, type: :string, desc: 'Filter playlists by name (case-insensitive)'
+    def list
+      config = Configuration.new
+      auth = Authentication.new(config)
+
+      unless auth.authenticated?
+        say '❌ Not authenticated. Run `groove auth login` first.', :red
+        exit 1
+      end
+
+      manager = PlaylistManager.new(auth.access_token)
+      playlists = manager.list_playlists(filter: options[:filter])
+
+      if manager.errors.any?
+        say '❌ Failed to list playlists', :red
+        manager.errors.each { |error| say "   Error: #{error}", :red }
+        exit 1
+      end
+
+      if playlists.empty?
+        if options[:filter]
+          say "No playlists found matching '#{options[:filter]}'", :yellow
+        else
+          say 'You have no playlists yet. Create one with `groove playlist create NAME`', :yellow
+        end
+        return
+      end
+
+      if options[:format] == 'json'
+        puts JSON.pretty_generate(playlists)
+      else
+        display_playlists_table(playlists)
+      end
+    end
+
+    private
+
+    def display_playlists_table(playlists)
+      say ''
+      say '📋 Your Spotify Playlists:', :cyan
+      say ''
+
+      # Calculate column widths
+      name_width = [playlists.map { |p| p[:name].length }.max, 20].max
+      id_width = 22 # Standard Spotify ID length
+      tracks_width = 7
+      visibility_width = 10
+      owner_width = [playlists.map { |p| p[:owner].length }.max, 15].max
+
+      # Print header
+      header = format("  %-#{name_width}s  %-#{id_width}s  %-#{tracks_width}s  %-#{visibility_width}s  %-#{owner_width}s",
+                      'NAME', 'ID', 'TRACKS', 'VISIBILITY', 'OWNER')
+      say header, :bold
+      say "  #{'-' * (name_width + id_width + tracks_width + visibility_width + owner_width + 8)}"
+
+      # Print playlists
+      playlists.each do |playlist|
+        visibility_icon = playlist[:public] ? '🌍 Public' : '🔒 Private'
+
+        row = format("  %-#{name_width}s  %-#{id_width}s  %#{tracks_width}d  %-#{visibility_width}s  %-#{owner_width}s",
+                     playlist[:name],
+                     playlist[:id],
+                     playlist[:tracks_total],
+                     visibility_icon,
+                     playlist[:owner])
+        say row
+      end
+
+      say ''
+      say "Total: #{playlists.length} playlist#{'s' if playlists.length != 1}", :green
+      say ''
+      say 'Use the ID to add songs: groove playlist add PLAYLIST_ID FILE', :yellow
+      say ''
     end
   end
 end
