@@ -4,6 +4,12 @@ require 'spec_helper'
 
 RSpec.describe Groove::Search do
   let(:sample_file) { File.join(__dir__, '..', '..', 'examples', 'sample_songs.csv') }
+  let(:test_tokens_path) { File.join(Dir.tmpdir, 'groove_test', 'tokens.json') }
+
+  before do
+    # Stub Configuration to use test credentials so tests don't use user's real tokens
+    allow(Groove::Configuration).to receive(:new).and_return(TestConfiguration.new)
+  end
 
   describe '#song' do
     it 'requires authentication' do

@@ -86,7 +86,23 @@ module Groove
     end
 
     def authenticated?
-      File.exist?(@tokens_path) && !expired?
+      return false unless File.exist?(@tokens_path)
+
+      # If token is expired but we have a refresh token, try to refresh
+      if expired?
+        tokens = load_tokens
+        if tokens['refresh_token']
+          begin
+            refresh_tokens
+            return true
+          rescue TokenExpiredError, Error
+            return false
+          end
+        end
+        return false
+      end
+
+      true
     end
 
     def expired?
@@ -138,9 +154,9 @@ module Groove
 
     def refresh_tokens
       tokens = load_tokens
-      refresh_token = tokens['refresh_token']
+      refresh_token_value = tokens['refresh_token']
 
-      return unless refresh_token
+      return unless refresh_token_value
 
       client = OAuth2::Client.new(
         @client_id,
@@ -150,8 +166,18 @@ module Groove
       )
 
       begin
-        token = client.refresh_token.get_token(refresh_token)
-        save_tokens(token)
+        # Create an AccessToken object from the refresh token
+        old_token = OAuth2::AccessToken.from_hash(
+          client,
+          {
+            'refresh_token' => refresh_token_value,
+            'expires_at' => tokens['expires_at']
+          }
+        )
+
+        # Refresh to get a new access token
+        new_token = old_token.refresh!
+        save_tokens(new_token)
       rescue OAuth2::Error => e
         raise TokenExpiredError, "Token refresh failed: #{e.message}"
       end

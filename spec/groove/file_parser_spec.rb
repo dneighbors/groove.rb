@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'spec_helper'
+require 'tempfile'
 
 RSpec.describe Groove::FileParser do
   let(:parser) { described_class.new }
@@ -38,6 +39,46 @@ RSpec.describe Groove::FileParser do
         songs = result.results[:songs]
         expect(songs.first.artist).to eq('The Beatles')
         expect(songs.first.title).to eq('Hey Jude')
+      end
+
+      it 'parses TXT file with en dash separator (–)' do
+        temp_file = Tempfile.new(['songs_en_dash', '.txt'])
+        temp_file.write("Anderson .Paak – Come Down\n")
+        temp_file.write("Silk Sonic – Fly as Me\n")
+        temp_file.write("Bruno Mars – Versace on the Floor\n")
+        temp_file.close
+
+        result = parser.parse_file(temp_file.path)
+
+        expect(result.results[:success]).to be true
+        expect(result.results[:total_songs]).to eq(3)
+        expect(result.results[:errors]).to be_empty
+
+        songs = result.results[:songs]
+        expect(songs[0].artist).to eq('Anderson .Paak')
+        expect(songs[0].title).to eq('Come Down')
+        expect(songs[1].artist).to eq('Silk Sonic')
+        expect(songs[1].title).to eq('Fly as Me')
+
+        temp_file.unlink
+      end
+
+      it 'parses TXT file with em dash separator (—)' do
+        temp_file = Tempfile.new(['songs_em_dash', '.txt'])
+        temp_file.write("The Beatles — Hey Jude\n")
+        temp_file.write("Queen — Bohemian Rhapsody\n")
+        temp_file.close
+
+        result = parser.parse_file(temp_file.path)
+
+        expect(result.results[:success]).to be true
+        expect(result.results[:total_songs]).to eq(2)
+
+        songs = result.results[:songs]
+        expect(songs[0].artist).to eq('The Beatles')
+        expect(songs[0].title).to eq('Hey Jude')
+
+        temp_file.unlink
       end
     end
 

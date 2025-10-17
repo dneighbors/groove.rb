@@ -24,6 +24,7 @@ Enable users to sync text files of songs/artists to Spotify playlists. This is t
 - **Story 1.4**: Playlist Creation and Management
 - **Story 1.5**: Error Handling and User Feedback
 - **Story 1.6**: Command-Line Interface
+- **Story 1.7**: Playlist Discovery and Listing
 
 ## Dependencies
 - Spotify Developer Account

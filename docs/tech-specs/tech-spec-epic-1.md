@@ -2,7 +2,7 @@
 
 **Epic ID**: 1
 **Epic Title**: Core Playlist Sync (MVP)
-**Stories**: 6 stories
+**Stories**: 7 stories
 **Author**: Developer
 **Date**: 2025-10-15
 
@@ -100,6 +100,22 @@ This epic implements the core functionality for syncing text files of songs/arti
 
 **Components**: `Groove::CLI`
 **Dependencies**: `thor` gem
+
+### Story 1.7: Playlist Discovery and Listing
+**As a** user  
+**I want** to see a list of my existing Spotify playlists with their IDs  
+**So that** I can easily find playlist IDs to use with the `add` command  
+
+**Technical Implementation**:
+- `groove playlist list` command to display user's playlists
+- Fetch playlists from Spotify API (`GET /v1/me/playlists`)
+- Display playlist name, ID, track count, and visibility (public/private)
+- Support pagination for users with many playlists
+- Optional filtering by playlist name (search/filter)
+- Format output as table or JSON for scripting
+
+**Components**: `Groove::PlaylistManager` (extend), `Groove::CLI`
+**Dependencies**: Spotify Web API, existing authentication
 
 ## Architecture Extract
 

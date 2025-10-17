@@ -3,11 +3,16 @@
 require 'spec_helper'
 
 RSpec.describe Groove::Configuration do
-  let(:config_path) { File.expand_path('~/.config/groove/config.yaml') }
+  let(:config_path) { File.join(Dir.tmpdir, 'groove_test', 'config.yaml') }
 
   before do
-    # Clean up any existing config
+    # Use a test-specific config path (NOT the user's real config!)
+    FileUtils.mkdir_p(File.dirname(config_path))
     FileUtils.rm_f(config_path)
+
+    # Stub File.expand_path to return our test path when config tries to load
+    allow(File).to receive(:expand_path).and_call_original
+    allow(File).to receive(:expand_path).with('~/.config/groove/config.yaml').and_return(config_path)
 
     # Reset configuration to defaults
     described_class.config.spotify_client_id = ''

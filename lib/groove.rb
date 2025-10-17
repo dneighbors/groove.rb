@@ -11,6 +11,8 @@ require_relative 'groove/models/artist'
 require_relative 'groove/parse'
 require_relative 'groove/spotify_search'
 require_relative 'groove/search'
+require_relative 'groove/playlist_manager'
+require_relative 'groove/playlist'
 require_relative 'groove/cli'
 
 module Groove
