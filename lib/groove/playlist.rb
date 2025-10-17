@@ -270,15 +270,21 @@ module Groove
       say '📋 Your Spotify Playlists:', :cyan
       say ''
 
-      # Calculate column widths
+      # Calculate column widths with max limits to prevent overflow
+      max_name_width = 50 # Limit name column to prevent overflow
       name_width = [playlists.map { |p| p[:name].length }.max, 20].max
+      name_width = [name_width, max_name_width].min # Cap at max_name_width
+
       id_width = 22 # Standard Spotify ID length
       tracks_width = 7
-      visibility_width = 10
+      visibility_width = 10 # "🔒 Private" or "🌍 Public"
+
+      max_owner_width = 20 # Limit owner column
       owner_width = [playlists.map { |p| p[:owner].length }.max, 15].max
+      owner_width = [owner_width, max_owner_width].min
 
       # Print header
-      header = format("  %-#{name_width}s  %-#{id_width}s  %-#{tracks_width}s  %-#{visibility_width}s  %-#{owner_width}s",
+      header = format("  %-#{name_width}s  %-#{id_width}s  %#{tracks_width}s  %-#{visibility_width}s  %-#{owner_width}s",
                       'NAME', 'ID', 'TRACKS', 'VISIBILITY', 'OWNER')
       say header, :bold
       say "  #{'-' * (name_width + id_width + tracks_width + visibility_width + owner_width + 8)}"
@@ -287,12 +293,16 @@ module Groove
       playlists.each do |playlist|
         visibility_icon = playlist[:public] ? '🌍 Public' : '🔒 Private'
 
+        # Truncate long names/owners with ellipsis
+        display_name = playlist[:name].length > name_width ? "#{playlist[:name][0...(name_width - 3)]}..." : playlist[:name]
+        display_owner = playlist[:owner].length > owner_width ? "#{playlist[:owner][0...(owner_width - 3)]}..." : playlist[:owner]
+
         row = format("  %-#{name_width}s  %-#{id_width}s  %#{tracks_width}d  %-#{visibility_width}s  %-#{owner_width}s",
-                     playlist[:name],
+                     display_name,
                      playlist[:id],
                      playlist[:tracks_total],
                      visibility_icon,
-                     playlist[:owner])
+                     display_owner)
         say row
       end
 
