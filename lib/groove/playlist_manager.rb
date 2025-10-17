@@ -122,6 +122,42 @@ module Groove
       get_playlist_track_ids(playlist_id)
     end
 
+    # List user's playlists
+    # @param limit [Integer, nil] Maximum number of playlists to return (nil for all)
+    # @param filter [String, nil] Filter playlists by name (case-insensitive)
+    # @return [Array<Hash>] Array of playlist hashes with id, name, tracks_total, public, owner
+    def list_playlists(limit: nil, filter: nil)
+      unless @access_token
+        @errors << 'No access token provided'
+        return []
+      end
+
+      begin
+        playlists = fetch_all_playlists
+
+        # Apply filter if provided
+        if filter
+          filter_lower = filter.downcase
+          playlists = playlists.select { |p| p[:name].downcase.include?(filter_lower) }
+        end
+
+        # Apply limit if provided
+        playlists = playlists.first(limit) if limit
+
+        @operations << {
+          type: :list_playlists,
+          count: playlists.length,
+          filtered: !filter.nil?,
+          success: true
+        }
+
+        playlists
+      rescue StandardError => e
+        @errors << "List playlists error: #{e.message}"
+        []
+      end
+    end
+
     # Get results summary
     # @return [Hash] Results with operations, errors, warnings
     def results
@@ -274,6 +310,57 @@ module Groove
         added: added,
         skipped: skipped
       }
+    end
+
+    def fetch_all_playlists
+      playlists = []
+      offset = 0
+      limit = 50 # Spotify maximum per page
+
+      loop do
+        response = make_get_playlists_request(limit, offset)
+
+        unless response.success?
+          handle_api_error(response, 'list playlists')
+          break
+        end
+
+        data = response.body
+        items = data['items'] || []
+
+        items.each do |item|
+          playlists << {
+            id: item['id'],
+            name: item['name'],
+            tracks_total: item.dig('tracks', 'total') || 0,
+            public: item['public'],
+            owner: item.dig('owner', 'display_name') || item.dig('owner', 'id')
+          }
+        end
+
+        # Check if there are more playlists
+        next_url = data['next']
+        break unless next_url
+
+        offset += limit
+      end
+
+      playlists
+    end
+
+    def make_get_playlists_request(limit, offset)
+      rate_limit_delay
+
+      connection = Faraday.new(url: "#{SPOTIFY_API_BASE}/me/playlists") do |conn|
+        conn.response :json
+        conn.adapter Faraday.default_adapter
+      end
+
+      connection.get do |req|
+        req.headers['Authorization'] = "Bearer #{@access_token}"
+        req.params['limit'] = limit
+        req.params['offset'] = offset
+      end
     end
 
     def rate_limit_delay

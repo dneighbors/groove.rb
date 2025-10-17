@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'thor'
+require 'json'
 
 module Groove
   class Playlist < Thor
@@ -223,6 +224,80 @@ module Groove
         manager.errors.each { |error| say "   Error: #{error}", :red }
         exit 1
       end
+    end
+
+    desc 'list', 'List your Spotify playlists with IDs'
+    option :format, type: :string, default: 'table', desc: 'Output format (table or json)'
+    option :filter, type: :string, desc: 'Filter playlists by name (case-insensitive)'
+    def list
+      config = Configuration.new
+      auth = Authentication.new(config)
+
+      unless auth.authenticated?
+        say '❌ Not authenticated. Run `groove auth login` first.', :red
+        exit 1
+      end
+
+      manager = PlaylistManager.new(auth.access_token)
+      playlists = manager.list_playlists(filter: options[:filter])
+
+      if manager.errors.any?
+        say '❌ Failed to list playlists', :red
+        manager.errors.each { |error| say "   Error: #{error}", :red }
+        exit 1
+      end
+
+      if playlists.empty?
+        if options[:filter]
+          say "No playlists found matching '#{options[:filter]}'", :yellow
+        else
+          say 'You have no playlists yet. Create one with `groove playlist create NAME`', :yellow
+        end
+        return
+      end
+
+      if options[:format] == 'json'
+        puts JSON.pretty_generate(playlists)
+      else
+        display_playlists_table(playlists)
+      end
+    end
+
+    private
+
+    def display_playlists_table(playlists)
+      say ''
+      say '📋 Your Spotify Playlists:', :cyan
+      say ''
+
+      # Fixed column widths - simpler and more reliable
+      name_width = 45
+      id_width = 22
+      tracks_width = 8
+      visibility_width = 10 # Wide enough for "🔒 Private"
+      owner_width = 20
+
+      # Print header - use ljust/rjust instead of format for better unicode handling
+      say "  #{'NAME'.ljust(name_width)}  #{'ID'.ljust(id_width)}  #{'TRACKS'.rjust(tracks_width)}  #{'VIS'.ljust(visibility_width)}  OWNER", :bold
+      say "  #{'-' * name_width}  #{'-' * id_width}  #{'-' * tracks_width}  #{'-' * visibility_width}  #{'-' * owner_width}"
+
+      # Print playlists
+      playlists.each do |playlist|
+        visibility_icon = playlist[:public] ? '🌍 Public' : '🔒 Private'
+
+        # Truncate long strings
+        display_name = playlist[:name].length > name_width ? "#{playlist[:name][0...(name_width - 3)]}..." : playlist[:name]
+        display_owner = playlist[:owner].length > owner_width ? "#{playlist[:owner][0...(owner_width - 3)]}..." : playlist[:owner]
+
+        # Use ljust/rjust for padding instead of format
+        say "  #{display_name.ljust(name_width)}  #{playlist[:id].ljust(id_width)}  #{playlist[:tracks_total].to_s.rjust(tracks_width)}  #{visibility_icon.ljust(visibility_width)}  #{display_owner}"
+      end
+
+      say ''
+      say "Total: #{playlists.length} playlist#{'s' if playlists.length != 1}", :green
+      say ''
+      say 'Use the ID to add songs: groove playlist add PLAYLIST_ID FILE', :yellow
+      say ''
     end
   end
 end

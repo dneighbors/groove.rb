@@ -406,4 +406,255 @@ RSpec.describe Groove::PlaylistManager do
       expect(end_time - start_time).to be >= 0.1
     end
   end
+
+  describe '#list_playlists' do
+    context 'with successful response' do
+      it 'returns empty array when user has no playlists' do
+        stub_request(:get, 'https://api.spotify.com/v1/me/playlists')
+          .with(
+            query: { limit: 50, offset: 0 },
+            headers: { 'Authorization' => "Bearer #{access_token}" }
+          )
+          .to_return(
+            status: 200,
+            body: { items: [], next: nil, total: 0 }.to_json,
+            headers: { 'Content-Type' => 'application/json' }
+          )
+
+        playlists = manager.list_playlists
+
+        expect(playlists).to eq([])
+        expect(manager.errors).to be_empty
+      end
+
+      # rubocop:disable RSpec/ExampleLength
+      it 'returns single page of playlists' do
+        stub_request(:get, 'https://api.spotify.com/v1/me/playlists')
+          .with(
+            query: { limit: 50, offset: 0 },
+            headers: { 'Authorization' => "Bearer #{access_token}" }
+          )
+          .to_return(
+            status: 200,
+            body: {
+              items: [
+                {
+                  id: 'playlist1',
+                  name: 'My Awesome Mix',
+                  tracks: { total: 42 },
+                  public: true,
+                  owner: { display_name: 'JohnDoe', id: 'user123' }
+                },
+                {
+                  id: 'playlist2',
+                  name: 'Chill Vibes',
+                  tracks: { total: 23 },
+                  public: false,
+                  owner: { display_name: 'JaneDoe', id: 'user456' }
+                }
+              ],
+              next: nil,
+              total: 2
+            }.to_json,
+            headers: { 'Content-Type' => 'application/json' }
+          )
+
+        playlists = manager.list_playlists
+
+        expect(playlists.length).to eq(2)
+        expect(playlists[0][:id]).to eq('playlist1')
+        expect(playlists[0][:name]).to eq('My Awesome Mix')
+        expect(playlists[0][:tracks_total]).to eq(42)
+        expect(playlists[0][:public]).to be true
+        expect(playlists[0][:owner]).to eq('JohnDoe')
+        expect(playlists[1][:id]).to eq('playlist2')
+        expect(playlists[1][:name]).to eq('Chill Vibes')
+        expect(playlists[1][:tracks_total]).to eq(23)
+        expect(playlists[1][:public]).to be false
+        expect(playlists[1][:owner]).to eq('JaneDoe')
+      end
+      # rubocop:enable RSpec/ExampleLength
+
+      # rubocop:disable RSpec/ExampleLength
+      it 'handles pagination and fetches all playlists' do
+        # First page
+        stub_request(:get, 'https://api.spotify.com/v1/me/playlists')
+          .with(
+            query: { limit: 50, offset: 0 },
+            headers: { 'Authorization' => "Bearer #{access_token}" }
+          )
+          .to_return(
+            status: 200,
+            body: {
+              items: [
+                {
+                  id: 'playlist1',
+                  name: 'Playlist 1',
+                  tracks: { total: 10 },
+                  public: true,
+                  owner: { display_name: 'User1' }
+                }
+              ],
+              next: 'https://api.spotify.com/v1/me/playlists?offset=50',
+              total: 75
+            }.to_json,
+            headers: { 'Content-Type' => 'application/json' }
+          )
+
+        # Second page
+        stub_request(:get, 'https://api.spotify.com/v1/me/playlists')
+          .with(
+            query: { limit: 50, offset: 50 },
+            headers: { 'Authorization' => "Bearer #{access_token}" }
+          )
+          .to_return(
+            status: 200,
+            body: {
+              items: [
+                {
+                  id: 'playlist2',
+                  name: 'Playlist 2',
+                  tracks: { total: 20 },
+                  public: false,
+                  owner: { display_name: 'User2' }
+                }
+              ],
+              next: nil,
+              total: 75
+            }.to_json,
+            headers: { 'Content-Type' => 'application/json' }
+          )
+
+        playlists = manager.list_playlists
+
+        expect(playlists.length).to eq(2)
+        expect(playlists[0][:name]).to eq('Playlist 1')
+        expect(playlists[1][:name]).to eq('Playlist 2')
+      end
+      # rubocop:enable RSpec/ExampleLength
+
+      it 'respects limit parameter' do
+        stub_request(:get, 'https://api.spotify.com/v1/me/playlists')
+          .with(
+            query: { limit: 50, offset: 0 },
+            headers: { 'Authorization' => "Bearer #{access_token}" }
+          )
+          .to_return(
+            status: 200,
+            body: {
+              items: [
+                { id: 'playlist1', name: 'Playlist 1', tracks: { total: 10 }, public: true, owner: { display_name: 'User1' } },
+                { id: 'playlist2', name: 'Playlist 2', tracks: { total: 20 }, public: true, owner: { display_name: 'User1' } },
+                { id: 'playlist3', name: 'Playlist 3', tracks: { total: 30 }, public: true, owner: { display_name: 'User1' } }
+              ],
+              next: nil,
+              total: 3
+            }.to_json,
+            headers: { 'Content-Type' => 'application/json' }
+          )
+
+        playlists = manager.list_playlists(limit: 2)
+
+        expect(playlists.length).to eq(2)
+        expect(playlists[0][:name]).to eq('Playlist 1')
+        expect(playlists[1][:name]).to eq('Playlist 2')
+      end
+
+      it 'filters playlists by name (case-insensitive)' do
+        stub_request(:get, 'https://api.spotify.com/v1/me/playlists')
+          .with(
+            query: { limit: 50, offset: 0 },
+            headers: { 'Authorization' => "Bearer #{access_token}" }
+          )
+          .to_return(
+            status: 200,
+            body: {
+              items: [
+                { id: 'playlist1', name: 'Workout Mix', tracks: { total: 10 }, public: true, owner: { display_name: 'User1' } },
+                { id: 'playlist2', name: 'Chill Vibes', tracks: { total: 20 }, public: true, owner: { display_name: 'User1' } },
+                { id: 'playlist3', name: 'Running Workout', tracks: { total: 30 }, public: true, owner: { display_name: 'User1' } }
+              ],
+              next: nil,
+              total: 3
+            }.to_json,
+            headers: { 'Content-Type' => 'application/json' }
+          )
+
+        playlists = manager.list_playlists(filter: 'workout')
+
+        expect(playlists.length).to eq(2)
+        expect(playlists[0][:name]).to eq('Workout Mix')
+        expect(playlists[1][:name]).to eq('Running Workout')
+      end
+    end
+
+    context 'with error responses' do
+      it 'handles authentication errors' do
+        stub_request(:get, 'https://api.spotify.com/v1/me/playlists')
+          .with(
+            query: { limit: 50, offset: 0 },
+            headers: { 'Authorization' => "Bearer #{access_token}" }
+          )
+          .to_return(status: 401, body: { error: 'Unauthorized' }.to_json)
+
+        playlists = manager.list_playlists
+
+        expect(playlists).to eq([])
+        expect(manager.errors).not_to be_empty
+      end
+
+      it 'handles rate limiting' do
+        stub_request(:get, 'https://api.spotify.com/v1/me/playlists')
+          .with(
+            query: { limit: 50, offset: 0 },
+            headers: { 'Authorization' => "Bearer #{access_token}" }
+          )
+          .to_return(status: 429, body: { error: 'Rate limit exceeded' }.to_json)
+
+        playlists = manager.list_playlists
+
+        expect(playlists).to eq([])
+        expect(manager.errors).not_to be_empty
+      end
+
+      it 'returns empty array when access token is missing' do
+        manager_without_token = described_class.new(nil)
+        playlists = manager_without_token.list_playlists
+
+        expect(playlists).to eq([])
+        expect(manager_without_token.errors).to include('No access token provided')
+      end
+    end
+
+    context 'with missing owner display_name' do
+      it 'falls back to owner ID when display_name is missing' do
+        stub_request(:get, 'https://api.spotify.com/v1/me/playlists')
+          .with(
+            query: { limit: 50, offset: 0 },
+            headers: { 'Authorization' => "Bearer #{access_token}" }
+          )
+          .to_return(
+            status: 200,
+            body: {
+              items: [
+                {
+                  id: 'playlist1',
+                  name: 'My Playlist',
+                  tracks: { total: 10 },
+                  public: true,
+                  owner: { id: 'user123' }
+                }
+              ],
+              next: nil,
+              total: 1
+            }.to_json,
+            headers: { 'Content-Type' => 'application/json' }
+          )
+
+        playlists = manager.list_playlists
+
+        expect(playlists[0][:owner]).to eq('user123')
+      end
+    end
+  end
 end

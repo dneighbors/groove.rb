@@ -2,13 +2,13 @@
 
 **Project:** groove.rb - Spotify Playlist Sync Tool  
 **Created:** 2025-10-15  
-**Last Updated:** 2025-10-16  
+**Last Updated:** 2025-10-17  
 
 ## Current State
 
 **Current Phase:** 4-Implementation  
-**Current Workflow:** Story 1.4 Complete - Ready for Story 1.5  
-**Overall Progress:** 64%  
+**Current Workflow:** Story 1.7 Complete - Epic 1 MVP Complete!  
+**Overall Progress:** 80%  
 **Project Level:** 2 (Small complete system - multiple epics)  
 **Project Type:** cli (Ruby gem/script)  
 **Greenfield/Brownfield:** Greenfield  
@@ -32,9 +32,9 @@ A Ruby gem/script that syncs a text list of songs/artists to a Spotify playlist.
 ## Epic Status
 
 ### **Epic 1: Core Playlist Sync (MVP)**
-- **Status**: In Development
+- **Status**: Complete ✅
 - **Stories**: 7 stories (1.1-1.7)
-- **Progress**: 4 stories completed (1.1-1.4)
+- **Progress**: 7 stories completed (1.1-1.7) - 100%
 
 ### **Epic 2: AI Music Discovery (Future)**
 - **Status**: Future Planning
@@ -57,26 +57,20 @@ A Ruby gem/script that syncs a text list of songs/artists to a Spotify playlist.
 
 | Epic | Story | ID  | Title | File |
 | ---- | ----- | --- | ----- | ---- |
-| 1 | 6 | 1.6 | Command-Line Interface | story-1.6.md |
-| 1 | 7 | 1.7 | Playlist Discovery and Listing | story-1.7.md |
 | 2 | 1 | 2.1 | AI Conversation Interface | story-2.1.md |
 | 2 | 2 | 2.2 | Music Discovery AI | story-2.2.md |
 | 2 | 3 | 2.3 | Smart Playlist Generation | story-2.3.md |
 | 2 | 4 | 2.4 | AI-Powered Recommendations | story-2.4.md |
 
-**Total in backlog:** 6 stories
+**Total in backlog:** 4 stories
 
 ### TODO (Needs Drafting)
 
-- **Story ID:** 1.5
-- **Story Title:** Error Handling and User Feedback
-- **Story File:** `story-1.5.md`
-- **Status:** Not yet drafted
-- **Action:** Run 'create-story' workflow to draft this story
+(No more Epic 1 stories to draft - Epic 1 complete after Story 1.7)
 
 ### IN PROGRESS (Approved for Development)
 
-(No stories currently in progress)
+(No stories currently in progress - Epic 1 MVP complete!)
 
 ### DONE (Completed Stories)
 
@@ -86,15 +80,18 @@ A Ruby gem/script that syncs a text list of songs/artists to a Spotify playlist.
 | 1.2 | story-1.2.md | 2025-01-14 | 3 |
 | 1.3 | story-1.3.md | 2025-01-14 | 8 |
 | 1.4 | story-1.4.md | 2025-10-16 | 8 |
+| 1.5 | story-1.5.md | 2025-10-17 | 3 |
+| 1.6 | story-1.6.md | 2025-10-17 | 5 |
 | 3.1 | story-3.1.md | 2024-01-15 | 8 |
 | 3.2 | story-3.2.md | 2024-01-15 | 5 |
 | 3.3 | story-3.3.md | 2024-01-15 | 8 |
 | 3.4 | story-3.4.md | 2025-01-15 | 5 |
 | 3.5 | story-3.5.md | 2025-01-15 | 8 |
 | 3.6 | story-3.6.md | 2025-01-15 | 5 |
+| 1.7 | story-1.7.md | 2025-10-17 | 5 |
 
-**Total completed:** 10 stories  
-**Total points completed:** 71 points
+**Total completed:** 13 stories  
+**Total points completed:** 84 points
 
 ## Decision Log
 
@@ -119,7 +116,12 @@ A Ruby gem/script that syncs a text list of songs/artists to a Spotify playlist.
 - **2025-10-16**: Story 1.4 (Playlist Creation and Management) COMPLETE. Implemented PlaylistManager component with create/add/sync functionality, batch operations (100-track chunking), duplicate handling, CLI integration, configuration support. All 114 tests passing (23 new tests). 8 story points. Moved to DONE.
 - **2025-10-16**: Course correction by PM: User identified usability gap - no way to list existing playlists to get IDs for `add` command. Added Story 1.7 (Playlist Discovery and Listing) to Epic 1 backlog. This will implement `groove playlist list` command to display user's playlists with IDs. Epic 1 now has 7 stories (1.1-1.7).
 - **2025-10-16**: Story 1.4 enhancements completed. UX improvements: progress indicators (shows every 10 songs), improved feedback ("Found X of Y tracks"), displays missing tracks list, better final summary ("Added X of Y tracks"). Implemented automatic token refresh - users no longer need to re-authenticate hourly, refresh happens automatically in background. CRITICAL FIX: Test suite was deleting user's real config/tokens files (~/.config/groove/) after every test run - moved all test files to /tmp/groove_test/, TestAuthentication and TestConfiguration now use isolated paths. Regenerated .rubocop_todo.yml to baseline 188 existing offenses. All 124 tests passing.
+- **2025-10-17**: Course correction completed. Discovered Stories 1.5 (Error Handling and User Feedback) and 1.6 (Command-Line Interface) were organically implemented during Stories 1.1-1.4 development. Both stories are functionally complete: comprehensive error handling with custom exception classes (Authentication::Error, FileParser::Error, PlaylistManager::Error, SpotifySearch::Error) and full Thor-based CLI with auth/parse/search/playlist subcommands. Created retrospective documentation (story-1.5.md, story-1.6.md) and updated workflow status. Epic 1 progress: 6/7 stories complete (86%). Next: Draft Story 1.7 (Playlist Discovery and Listing).
+- **2025-10-17**: Completed create-story for Story 1.7 (Playlist Discovery and Listing). Story file: story-1.7.md. Status: Draft (needs review via story-ready). This story addresses a usability gap identified during course correction - users need an easy way to discover playlist IDs for use with the `groove playlist add` command. Implementation will extend PlaylistManager with list_playlists method and add `groove playlist list` CLI command. Next: Review and approve story via story-ready workflow.
+- **2025-10-17**: Story 1.7 (Playlist Discovery and Listing) marked ready for development by SM agent. Story approved. Moved from TODO → IN PROGRESS. Next: Generate context with story-context workflow, then implement via dev-story.
+- **2025-10-17**: Completed story-context for Story 1.7. Context file: docs/stories/story-context-1.7.xml. Includes comprehensive guidance on extending PlaylistManager with list_playlists method, implementing CLI list command with table/JSON output, pagination handling, filtering, and testing strategy. Next: DEV agent should implement story.
+- **2025-10-17**: Story 1.7 (Playlist Discovery and Listing) COMPLETE. Implemented PlaylistManager.list_playlists method with Spotify API integration (GET /v1/me/playlists), pagination support (50 per page), optional filtering by name, and limit parameter. Added 'groove playlist list' CLI command with table/JSON output formats, visual indicators (🔒/🌍), and user-friendly empty state messages. All 32 PlaylistManager tests passing. 5 story points. Epic 1 MVP now 100% complete!
 
 ---
 
-**Ready to begin Story 1.5!** 🚀
+**🎉 Epic 1 MVP Complete! All 7 stories delivered!** 🚀
