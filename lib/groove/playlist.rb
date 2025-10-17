@@ -277,7 +277,7 @@ module Groove
 
       id_width = 22 # Standard Spotify ID length
       tracks_width = 7
-      visibility_width = 10 # "🔒 Private" or "🌍 Public"
+      visibility_width = 10 # "Private" or "Public"
 
       max_owner_width = 20 # Limit owner column
       owner_width = [playlists.map { |p| p[:owner].length }.max, 15].max
@@ -291,7 +291,8 @@ module Groove
 
       # Print playlists
       playlists.each do |playlist|
-        visibility_icon = playlist[:public] ? '🌍 Public' : '🔒 Private'
+        # Use simple text to avoid emoji alignment issues
+        visibility_text = playlist[:public] ? 'Public' : 'Private'
 
         # Truncate long names/owners with ellipsis
         display_name = playlist[:name].length > name_width ? "#{playlist[:name][0...(name_width - 3)]}..." : playlist[:name]
@@ -301,7 +302,7 @@ module Groove
                      display_name,
                      playlist[:id],
                      playlist[:tracks_total],
-                     visibility_icon,
+                     visibility_text,
                      display_owner)
         say row
       end
