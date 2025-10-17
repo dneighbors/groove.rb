@@ -270,40 +270,27 @@ module Groove
       say '📋 Your Spotify Playlists:', :cyan
       say ''
 
-      # Calculate column widths with max limits to prevent overflow
-      max_name_width = 50 # Limit name column to prevent overflow
-      name_width = [playlists.map { |p| p[:name].length }.max, 20].max
-      name_width = [name_width, max_name_width].min # Cap at max_name_width
+      # Fixed column widths - simpler and more reliable
+      name_width = 45
+      id_width = 22
+      tracks_width = 8
+      visibility_width = 10 # Wide enough for "🔒 Private"
+      owner_width = 20
 
-      id_width = 22 # Standard Spotify ID length
-      tracks_width = 7
-      visibility_width = 10 # "🔒 Private" or "🌍 Public"
-
-      max_owner_width = 20 # Limit owner column
-      owner_width = [playlists.map { |p| p[:owner].length }.max, 15].max
-      owner_width = [owner_width, max_owner_width].min
-
-      # Print header
-      header = format("  %-#{name_width}s  %-#{id_width}s  %#{tracks_width}s  %-#{visibility_width}s  %-#{owner_width}s",
-                      'NAME', 'ID', 'TRACKS', 'VISIBILITY', 'OWNER')
-      say header, :bold
-      say "  #{'-' * (name_width + id_width + tracks_width + visibility_width + owner_width + 8)}"
+      # Print header - use ljust/rjust instead of format for better unicode handling
+      say "  #{'NAME'.ljust(name_width)}  #{'ID'.ljust(id_width)}  #{'TRACKS'.rjust(tracks_width)}  #{'VIS'.ljust(visibility_width)}  OWNER", :bold
+      say "  #{'-' * name_width}  #{'-' * id_width}  #{'-' * tracks_width}  #{'-' * visibility_width}  #{'-' * owner_width}"
 
       # Print playlists
       playlists.each do |playlist|
         visibility_icon = playlist[:public] ? '🌍 Public' : '🔒 Private'
 
-        # Truncate long names/owners with ellipsis
+        # Truncate long strings
         display_name = playlist[:name].length > name_width ? "#{playlist[:name][0...(name_width - 3)]}..." : playlist[:name]
         display_owner = playlist[:owner].length > owner_width ? "#{playlist[:owner][0...(owner_width - 3)]}..." : playlist[:owner]
 
-        row = format("  %-#{name_width}s  %-#{id_width}s  %#{tracks_width}d  %-#{visibility_width}s  %-#{owner_width}s",
-                     display_name,
-                     playlist[:id],
-                     playlist[:tracks_total],
-                     visibility_icon,
-                     display_owner)
-        say row
+        # Use ljust/rjust for padding instead of format
+        say "  #{display_name.ljust(name_width)}  #{playlist[:id].ljust(id_width)}  #{playlist[:tracks_total].to_s.rjust(tracks_width)}  #{visibility_icon.ljust(visibility_width)}  #{display_owner}"
       end
 
       say ''
