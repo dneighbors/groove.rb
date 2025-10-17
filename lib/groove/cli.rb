@@ -39,6 +39,7 @@ module Groove
           groove playlist create      - Create a new empty Spotify playlist
           groove playlist add         - Add songs to existing playlist (skips duplicates)
           groove playlist sync        - Create playlist and add songs in one step
+          groove playlist list        - List your Spotify playlists with IDs
           groove version              - Show version
           groove help                 - Show this help
 
